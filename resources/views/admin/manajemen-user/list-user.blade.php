@@ -78,6 +78,176 @@
     </div>
 </div>
 @endforeach
+
+{{-- Modal Tambah User --}}
+<div class="modal fade" id="tambahDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+               <center> <b>User Baru</b> </center>
+
+                <form method="POST" id="passFormNewUser" action="">
+                    @csrf
+                    <div class="form-group">
+                        <label for="namaOperator">Nama</label>
+                        <input type="text" name="namaOperator" class="form-control" placeholder="Nama Operator" required>
+            
+                        @if ($errors->has('namaOperator'))
+                            <div class="text-danger">
+                                {{ $errors->first('namaOperator')}}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailOperator">Email</label>
+                        <input type="email" name="emailOperator" class="form-control" placeholder="Alamat E-Mail" required>
+            
+                        @if ($errors->has('emailOperator'))
+                            <div class="text-danger">
+                                {{ $errors->first('emailOperator')}}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                            <label >Unit</label>
+                        <select name="unit" width="100%" required class="form-control select1">
+                            <option value hidden disable>---Pilih---</option>
+                            {{-- @foreach($unit as $s) --}}
+                            <option value="1">Bantaian</option>
+                            {{-- @endforeach --}}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label >Level</label>
+                    <select name="unit" width="100%" required class="form-control select2">
+                        <option value hidden disable>---Pilih---</option>
+                        {{-- @foreach($unit as $s) --}}
+                        <option value="1">Ope</option>
+                        {{-- @endforeach --}}
+                    </select>
+                </div>
+
+                    <div class="form-group">
+                        <label for="new_password">Password Baru (Min. 8 Digit)</label>
+                        <input type="password" name="new_password" id="password" class="form-control" placeholder="Password" required> @if ($errors->has('new_password'))
+                        <div class="text-danger">
+                            {{ $errors->first('new_password')}}
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konfirmasi_password">Konfirmasi Password (Min. 8 Digit)</label><span id='message'></span>
+                        <input type="password" name="konfirmasi_password" id="confirm_password" class="form-control" placeholder="Konfirmasi Password" required> @if ($errors->has('konfirmasi_password'))
+                        <div class="text-danger">
+                            {{ $errors->first('konfirmasi_password')}}
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <input id="simpanBtnNew" disabled="disabled" type="submit" class="btn btn-success" value="Simpan">
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Akhir Tambah User --}}
+
+{{-- Modal - Edit User --}}
+@foreach ($users as $user)
+<div class="modal fade" id="#editModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                Edit <b> {{$user->name}}</b>
+            </div>
+            <div class="modal-footer">
+                <form method="POST"  id="ubahPassForm" action="">
+                    @csrf
+                    <input type="hidden" name="id" value="{{$user->id}}">
+
+                    <div class="form-group">
+                        <label for="namaOperator">Nama</label>
+                        <input type="text" name="namaOperator" class="form-control" placeholder="Nama Operator" required>
+            
+                        @if ($errors->has('namaOperator'))
+                            <div class="text-danger">
+                                {{ $errors->first('namaOperator')}}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label for="emailOperator">Email</label>
+                        <input type="email" name="emailOperator" class="form-control" placeholder="Alamat E-Mail" required>
+            
+                        @if ($errors->has('emailOperator'))
+                            <div class="text-danger">
+                                {{ $errors->first('emailOperator')}}
+                            </div>
+                        @endif
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Unit</label>
+                        </div>
+                        <select name="unit" width="100%" required class="form-control select2">
+                            <option value hidden disable>---Pilih---</option>
+                            {{-- @foreach($unit as $s) --}}
+                            <option value="1">Bantaian</option>
+                            {{-- @endforeach --}}
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text">Level</label>
+                        </div>
+                        <select name="level" width="100%" required class="form-control select2">
+                            <option value hidden disable>---Pilih---</option>
+                            {{-- @foreach($subdomain as $s) --}}
+                            <option value="1">Ope</option>
+                            {{-- @endforeach --}}
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new_password">Password (Min. 8 Digit)</label>
+                        <input type="password" name="new_password" id="password" class="form-control" placeholder="Password Baru" required> @if ($errors->has('new_password'))
+                        <div class="text-danger">
+                            {{ $errors->first('new_password')}}
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="form-group">
+                        <label for="konfirmasi_password">Konfirmasi Password (Min. 8 Digit)</label><span id='message'></span>
+                        <input type="password" name="konfirmasi_password" id="confirm_password" class="form-control" placeholder="Konfirmasi Password" required> @if ($errors->has('konfirmasi_password'))
+                        <div class="text-danger">
+                            {{ $errors->first('konfirmasi_password')}}
+                        </div>
+                        @endif
+                    </div>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <input id="simpanBtn" disabled="disabled" type="submit" class="btn btn-success" value="Simpan">
+            </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
+{{-- Akhir Modal Edit User --}}
+
 @endsection
 
 @section('javascript')
@@ -95,5 +265,31 @@
                 "autoWidth": false,
             });
         });
+    </script>
+    <script type="text/javascript">
+        $('#password, #confirm_password').on('keyup', function () {
+            if ($('#password').val() == $('#confirm_password').val()) {
+                    $('#message').html('Matching').css('color', 'green');
+                } else 
+                    $('#message').html('Not Matching').css('color', 'red');
+        });
+    </script>
+    <script>
+        ubahPassForm.addEventListener('input',() =>{
+        if(password.value == confirm_password.value && password.value.length >7 && confirm_password.value.length >7){
+            simpanBtn.removeAttribute('disabled');
+            } else {
+                simpanBtn.setAttribute('disabled', 'disabled');
+            }
+    });
+    </script>
+    <script>
+        passFormNewUser.addEventListener('input',() =>{
+        if(password.value == confirm_password.value && password.value.length >7 && confirm_password.value.length >7){
+            simpanBtnNew.removeAttribute('disabled');
+            } else {
+                simpanBtnNew.setAttribute('disabled', 'disabled');
+            }
+    });
     </script>
 @endsection

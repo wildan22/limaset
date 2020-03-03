@@ -57,6 +57,12 @@ class AdminController extends Controller
         return view('admin.manajemen-user.pending-user',['pendingusers'=>$pendingusers,'level'=>$level]);
     }
 
+    /** Tampilkan Halaman Manajemen-User.Tambah-User */
+    public function showTambahUserForm(){
+        $users = User::all();
+        return view('admin.manajemen-user.tambah-user',['users'=>$users]);
+    }
+
     /** Proses Simpan Kategori Baru */
     public function simpanKategoriBaru(Request $request){
         $this->validate($request,[
