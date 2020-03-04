@@ -60,6 +60,17 @@ class AdminController extends Controller
         return view('admin.manajemen-user.pending-user',['pendingusers'=>$pendingusers,'level'=>$level]);
     }
 
+    /** Tampilkan Halaman Manajemen-Inventaris.List-Inventaris */
+    public function showListInventaris(){
+        $list = requested_user::all();
+        return view('admin.manajemen-inventaris.list-inventaris',['list'=>$list]);
+    }
+
+      /** Tampilkan Halaman Manajemen-Inventaris.new-Inventaris */
+      public function showFormNewInventaris(){
+        return view('admin.manajemen-inventaris.new-inventaris');
+    }
+
     /** Tampilkan Halaman Manajemen-User.Tambah-User */
     public function showTambahUserForm(){
         $users = User::all();

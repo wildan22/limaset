@@ -162,7 +162,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link">
+                            <a href="#" class="nav-link {{ request()->is('admin/manajemen-inventaris/*') ? 'active': ''}}">
                                 <i class="fas fa-dolly"></i>
                                 <p>
                                     Manajemen Inventaris
@@ -171,13 +171,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/admin/manajemen-inventaris/new-inventaris" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Tambah Inventaris</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="/admin/manajemen-inventaris/list-inventaris" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Inventaris List</p>
                                     </a>
