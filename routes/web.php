@@ -79,6 +79,9 @@ Route::middleware('is_admin')->group(function (){
     Route::POST('admin/manajemen-user/pending-user/decline', 'AdminController@tolakUserPending')->name('admin.manajemenuser.pending.tolak');
     /** PROSES EDIT USER */
     // Route::POST('admin/manajemen-user/list-user/edit', 'AdminController@tolakUserPending')->name('admin.manajemenuser.edit');
+    /** PROSES TAMBAH USER LEWAT ADMIN PANEL */
+    Route::POST('admin/manajemen-user/list-user/tambah','AdminController@tambahUser')->name('admin.manajemenuser.proses-tambah');
+
 });
 
 //-- HANYA UNTUK TESTING --//
