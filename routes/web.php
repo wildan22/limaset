@@ -82,6 +82,11 @@ Route::middleware('is_admin')->group(function (){
     /** PROSES TAMBAH USER LEWAT ADMIN PANEL */
     Route::POST('admin/manajemen-user/list-user/tambah','AdminController@tambahUser')->name('admin.manajemenuser.proses-tambah');
 
+     /** TAMPILKAN HALAMAN LIST INVENTARIS */
+     Route::get('/admin/manajemen-inventaris/list-inventaris', 'AdminController@showListInventaris')->name('admin.listinventaris');
+     /** TAMPILKAN HALAMAN NEW-INVENTARIS */
+     Route::get('/admin/manajemen-inventaris/new-inventaris', 'AdminController@showFormNewInventaris')->name('admin.forminventaris');
+
 });
 
 //-- HANYA UNTUK TESTING --//

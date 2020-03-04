@@ -182,8 +182,7 @@
         <div class="modal-content">
             <div class="modal-body">
                 Edit <b> {{$user->name}}</b>
-            </div>
-            <div class="modal-footer">
+                
                 <form method="POST" action="">
                     @csrf
                     <input type="hidden" name="id" value="{{$user->id}}">
