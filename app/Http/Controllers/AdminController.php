@@ -11,6 +11,7 @@ use App\ram_type;
 use App\User;
 use App\requested_user;
 use App\level;
+use App\unit;
 
 class AdminController extends Controller
 {
@@ -47,7 +48,9 @@ class AdminController extends Controller
     /** Tampilkan Halaman Manajemen-User.List */
     public function showManajemenUserList(){
         $users = User::all();
-        return view('admin.manajemen-user.list-user',['users'=>$users]);
+        $level = level::all();
+        $unit = unit::all();
+        return view('admin.manajemen-user.list-user',['users'=>$users,'level'=>$level,'unit'=>$unit]);
     }
 
     /** Tampilkan Halaman Manajemen-User.Pending-User */
@@ -238,5 +241,25 @@ class AdminController extends Controller
         $userpending->delete();
         Alert::success('Sukses','Users Berhasil Ditolak');
         return redirect()->route('admin.manajemenuser.pending');
+    }
+
+    /** Proses Tambah User */
+    public function tambahUser(Request $request){
+        $this->validate($request,[
+            'nama' => 'required|min:3',
+            'email' => 'required|email|min:5|unique:users,email',
+            'unit' => 'required',
+            'level' => 'required',
+            'password' => 'required|min:8|confirmed'
+        ]);
+        User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'level_id' => $request->level,
+            'unit_id' => $request->unit,
+            'password' => bcrypt($request->password)
+        ]);
+        Alert::success('Sukses','Users Berhasil Ditambahkan');
+        return redirect()->route('admin.manajemenuser.list');
     }
 }
