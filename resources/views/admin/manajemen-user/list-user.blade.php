@@ -150,7 +150,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <input id="simpanBtnNew" disabled="disabled" type="submit" class="btn btn-success" value="Simpan">
+                        <input id="simpanBtnNew" type="submit" disabled="disabled" class="btn btn-success" value="Simpan">
                 </div>
                 </form>
             </div>
@@ -274,7 +274,7 @@
                     $('#message').html('Not Matching').css('color', 'red');
         });
     </script>
-    <script>
+    {{-- <script>
         ubahPassForm.addEventListener('input',() =>{
         if(password.value == confirm_password.value && password.value.length >7 && confirm_password.value.length >7){
             simpanBtn.removeAttribute('disabled');
@@ -282,14 +282,14 @@
                 simpanBtn.setAttribute('disabled', 'disabled');
             }
     });
-    </script>
+    </script> --}}
     <script>
         passFormNewUser.addEventListener('input',() =>{
-        if(password.value == confirm_password.value && password.value.length >7 && confirm_password.value.length >7){
+           if(password.value.length > 7 && confirm_password.value.length > 7){
             simpanBtnNew.removeAttribute('disabled');
-            } else {
+               } else {
                 simpanBtnNew.setAttribute('disabled', 'disabled');
-            }
-    });
+               }
+       });
     </script>
 @endsection
