@@ -75,7 +75,7 @@
                 Apakah Anda Yakin akan Menghapus Data ini?
             </div>
             <div class="modal-footer">
-                <form method="POST" action="{{route('admin.sistemoperasi.hapus')}}">
+                <form method="POST" action="{{route('admin.manajemenuser.proses-hapus')}}">
                     @csrf
                     <input type="hidden" name="id" value="{{$user->id}}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

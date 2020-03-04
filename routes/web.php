@@ -41,8 +41,6 @@ Route::middleware('is_admin')->group(function (){
     Route::get('/admin/manajemen-user/list-user', 'AdminController@showManajemenUserList')->name('admin.manajemenuser.list');
     /** TAMPILKAN HALAMAN MANEJEMEN-USER.PENDING-USERS-LIST */
     Route::get('/admin/manajemen-user/pending-user', 'AdminController@showPendingUserList')->name('admin.manajemenuser.pending');
-    /** TAMPILKAN HALAMAN TABAH-USER */
-    Route::get('/admin/manajemen-user/tambah-user', 'AdminController@showTambahUserForm')->name('admin.manajemenuser.tambah');
 
     
     //PROSES TAMBAH KATEGORI
@@ -81,6 +79,8 @@ Route::middleware('is_admin')->group(function (){
     // Route::POST('admin/manajemen-user/list-user/edit', 'AdminController@tolakUserPending')->name('admin.manajemenuser.edit');
     /** PROSES TAMBAH USER LEWAT ADMIN PANEL */
     Route::POST('admin/manajemen-user/list-user/tambah','AdminController@tambahUser')->name('admin.manajemenuser.proses-tambah');
+    /** PROSES HAPUS USER */
+    Route::POST('admin/manajemen-user/list-user/hapus','AdminController@hapusUser')->name('admin.manajemenuser.proses-hapus');
 
 });
 

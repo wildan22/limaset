@@ -262,4 +262,15 @@ class AdminController extends Controller
         Alert::success('Sukses','Users Berhasil Ditambahkan');
         return redirect()->route('admin.manajemenuser.list');
     }
+
+    /** Proses Hapus User */
+    public function hapusUser(Request $request){
+        $this->validate($request,[
+            'id' => 'required'
+        ]);
+        $sistemoperasi = User::find($request->id);
+        $sistemoperasi->delete();
+        Alert::success('Sukses','Data Berhasil Dihapus');
+        return redirect()->route('admin.manajemenuser.list');
+    }
 }
