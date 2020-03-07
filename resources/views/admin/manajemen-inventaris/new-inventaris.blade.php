@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','List User Terdaftar')
+@section('page_title','Manajemen Inventaris - Form Inventaris')
 
 @section('content-header')
-<h3 class="text-center">Form Inventaris TI</h3>
+<h3 class="text-center">Form Inventaris</h3>
 <ul>
     @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -19,8 +19,105 @@
 <!-- /.card-header -->
 <div class="card">
     <div class="card-body">
-        
-        ini akan di isi form
+        <form id="editForm" method="post" action="" enctype="multipart/form-data">
+            @csrf
+            
+            <div class="form-group">
+                <label for="email">Merk Perangkat</label>
+                <input type="email" name="email" class="form-control" placeholder="Contoh: ASUS" required> @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email')}}
+                </div>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="email">Serial Number</label>
+                <input type="email" name="email" class="form-control" placeholder="Contoh: ASDQWE1211" required> @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email')}}
+                </div>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="email">Processor</label>
+                <input type="email" name="email" class="form-control" placeholder="Contoh: AMD Ryzen 7" required> @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email')}}
+                </div>
+                @endif
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Computer Name</label>
+                <input type="email" name="email" class="form-control" placeholder="Contoh: N7-BANTAIAN-MUTAQIN" required> @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email')}}
+                </div>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="email">MAC. Address</label>
+                <input type="email" name="email" class="form-control" placeholder=" Contoh: 12-13-14-AA-2A-3B" required> @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email')}}
+                </div>
+                @endif
+            </div>
+            <div class="form-group">
+                <label for="email">Tahun Perolehan</label>
+                <input type="email" name="email" class="form-control" placeholder="Contoh: 2020" required> @if ($errors->has('email'))
+                <div class="text-danger">
+                    {{ $errors->first('email')}}
+                </div>
+                @endif
+            </div>
+
+                <label>Silahkan Pilih</label>
+            <div class="input-group mb-3">
+                <select name="level" class="form-control" id="inputGroupSelect01" required>
+                    <option value hidden disable>Pilih Kategori Perangkat</option>
+                    {{-- @foreach($ as $l) --}}
+                    <option value=""></option>
+                    {{-- @endforeach --}}
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <select name="level" class="form-control" id="inputGroupSelect01" required>
+                    <option value hidden disable>Pilih Jenis Perangkat</option>
+                    {{-- @foreach($ as $l) --}}
+                    <option value=""></option>
+                    {{-- @endforeach --}}
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <select name="level" class="form-control" id="inputGroupSelect01" required>
+                    <option value hidden disable>Pilih Ukuran Storage</option>
+                    {{-- @foreach($ as $l) --}}
+                    <option value=""></option>
+                    {{-- @endforeach --}}
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <select name="level" class="form-control" id="inputGroupSelect01" required>
+                    <option value hidden disable>Pilih Ukuran RAM</option>
+                    {{-- @foreach($ as $l) --}}
+                    <option value=""></option>
+                    {{-- @endforeach --}}
+                </select>
+            </div>
+            <div class="input-group mb-3">
+                <select name="level" class="form-control" id="inputGroupSelect01" required>
+                    <option value hidden disable>Pilih Sistem Operasi</option>
+                    {{-- @foreach($ as $l) --}}
+                    <option value=""></option>
+                    {{-- @endforeach --}}
+                </select>
+            </div>
+            <div class="form-group mt-3">
+                <input id="simpanBtn"  type="submit" class="btn btn-success" value="Simpan">
+            </div>
+        </form>
     </div>
     <!-- /.card-body -->
 </div>

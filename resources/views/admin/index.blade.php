@@ -1,6 +1,6 @@
 @extends('layouts.sidebar')
 
-@section('page_title','Dashboard Admin')
+@section('page_title','Dashboard - Admin')
 
 @section('content-header')
 <div class="container-fluid">

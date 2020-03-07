@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','List User Terdaftar')
+@section('page_title','Manajemen Inventaris - List Inventaris')
 
 @section('content-header')
-<h3 class="text-center">List Inventaris TI</h3>
+<h3 class="text-center">List Inventaris</h3>
 <ul>
     @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -69,11 +69,54 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <b> JR/PTPN7/INV/LP/299/X/12</b>
+               <center> <b> JR/PTPN7/INV/LP/299/X/12</b></center>
             </div>
-            
-               asdasd
-
+            <div class="container">
+                <div class="row">
+                    <div class="col-4"><b> Perangkat</div></b>
+                    <div class="col-8">Laptop</div>
+                  </div>
+                <div class="row">
+                  <div class="col-4"><b>Merk</div></b>
+                  <div class="col-8">Asus ROG</div>
+                </div>
+                <div class="row">
+                    <div class="col-4"><b>Serial Number</div></b>
+                    <div class="col-8">V8MAJ00RA</div>
+                </div>
+                <div class="row">
+                    <div class="col-4"><b>Sistem Operasi</div></b>
+                    <div class="col-8">Windows 10</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>Computer Name</div></b>
+                    <div class="col-8">N7-BEKA-TAHER</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>Storage</div></b>
+                    <div class="col-8">1TB</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>RAM</div></b>
+                    <div class="col-8">8GB</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>Processor</div></b>
+                    <div class="col-8">AMD Ryzen 7</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>Mac Address</div></b>
+                    <div class="col-8">18-60-88-11-12-33</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>Tahun Perolehan</div></b>
+                    <div class="col-8">2018</div>
+                  </div>
+                  
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
+            </div>
         </div>
     </div>
 </div>

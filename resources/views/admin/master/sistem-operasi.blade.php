@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','Data Master Sistem Operasi')
+@section('page_title','Data Master - Sistem Operasi')
 
 @section('content-header')
 <h3 class="text-center">Data Master Sistem Operasi</h3>

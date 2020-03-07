@@ -45,6 +45,13 @@ class AdminController extends Controller
         return view('admin.master.jenis-ram',['jenisram'=>$jenisram]);
     }
 
+     /** Tampilkan Halaman Master.Ukuran-Penyimpanan */
+     public function showMasterUkuranPenyimpanan(){
+        $ukuranpenyimpanan = storage_size::all();
+        $kategori = category::all();
+        return view('admin.master.ukuran-penyimpanan',['ukuranpenyimpanan'=>$ukuranpenyimpanan,'kategori'=>$kategori]);
+    }
+
     /** Tampilkan Halaman Manajemen-User.List */
     public function showManajemenUserList(){
         $users = User::all();

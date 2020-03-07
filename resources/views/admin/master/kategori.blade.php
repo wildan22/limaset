@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','Data Master Kategori')
+@section('page_title','Data Master - Kategori')
 @section('content-header')
 <h3 class="text-center">Data Master Kategori</h3>
 @endsection
