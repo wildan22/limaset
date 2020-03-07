@@ -88,7 +88,7 @@
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script>
     $(function () {
-        $('#jenisram').DataTable({
+        $('#listInventaris').DataTable({
             "paging": true,
             "lengthChange": false,
             "searching": true,
