@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','List User Terdaftar')
+@section('page_title','Manajemen User - List User')
 
 @section('content-header')
 <h3 class="text-center">List User Terdaftar</h3>

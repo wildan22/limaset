@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','List Pending User')
+@section('page_title','Manajemen User - List Pending User')
 
 @section('content-header')
 <h3 class="text-center">User Menunggu Konfirmasi</h3>

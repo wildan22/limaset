@@ -4,10 +4,10 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','Data Master - Jenis Perangkat')
+@section('page_title','Data Master - Ukuran Penyimpanan')
 
 @section('content-header')
-<h3 class="text-center">Data Master Jenis Perangkat</h3>
+<h3 class="text-center">Data Master Ukuran Penyimpanan</h3>
 @endsection
 
 @section('content-main')
@@ -18,32 +18,32 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahDataModal">
             Tambah Data
         </button>
-        <table id="jenisperangkat" class="table table-bordered table-hover">
+        <table id="jenisram" class="table table-bordered table-hover">
         @php
             $no = 1;
         @endphp
             <thead>
                 <tr>
                     <th width="5%">No. </th>
-                    <th width="30%">Jenis Perangkat</th>
-                    <th width="20%">Kategori</th>
+                    <th width="30%">Tipe Ram</th>
+                    <th width="20%">Created At</th>
                     <th width="20%">Updated At</th>
                     <th width="10%">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($jenisperangkat as $j)
+                @foreach ($jenisram as $jr)
                 <tr>
                     <td>{{$no++}}</td>
-                    <td>{{$j->nama_perangkat}}</td>
-                    <td>{{$j->category->category_name}}</td>
-                    <td>{{$j->updated_at}}</td>
+                    <td>{{$jr->tipe_ram}}</td>
+                    <td>{{$jr->created_at}}</td>
+                    <td>{{$jr->updated_at}}</td>
                     <td class="text-center">
-                        <a class="btn btn-warning text-white" data-toggle="modal" data-target="#editModal-{{$j->id}}">
+                        <a class="btn btn-warning text-white" data-toggle="modal" data-target="#editModal-{{$jr->id}}">
                             <i class="fas fa-edit"></i>
                         </a>
                         -
-                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal-{{$j->id}}">
+                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal-{{$jr->id}}">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
@@ -60,26 +60,17 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Tambah Data Kategori</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Tambah Data Jenis Ram</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{route('admin.jenisperangkat.tambah')}}" method="POST">
+            <form action="{{route('admin.jenisram.tambah')}}" method="POST">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group">
-                      <label for="">Kategori</label>
-                      <select class="form-control" name="kategori_id" id="" required>
-                        <option value hidden disable>---Pilih---</option>
-                        @foreach($kategori as $k)
-                        <option value="{{$k->id}}">{{$k->category_name}}</option>
-                        @endforeach
-                      </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="">Jenis Perangkat</label>
-                        <input type="text" name="jenisperangkat" class="form-control" placeholder="Misal : CPU" aria-describedby="helpId" required>
+                        <label for="">Jenis Ram</label>
+                        <input type="text" name="jenisram" class="form-control" placeholder="Misal : DDR3" aria-describedby="helpId" required>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -91,18 +82,18 @@
     </div>
 </div>
 
-@foreach ($jenisperangkat as $j)
+@foreach ($jenisram as $jr)
 <!-- Delete Modal -->
-<div class="modal fade" id="deleteModal-{{$j->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteModal-{{$jr->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
                 Apakah Anda Yakin akan Menghapus Data ini?
             </div>
             <div class="modal-footer">
-                <form method="POST" action="{{route('admin.jenisperangkat.hapus')}}">
+                <form method="POST" action="{{route('admin.jenisram.hapus')}}">
                     @csrf
-                    <input type="hidden" name="id" value="{{$j->id}}">
+                    <input type="hidden" name="id" value="{{$jr->id}}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Hapus</a>
                 </form>
@@ -112,7 +103,7 @@
 </div>
 
 <!-- Edit Modal -->
-<div class="modal fade" id="editModal-{{$j->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal-{{$jr->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,15 +113,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('admin.jenisperangkat.ubah')}}" method="POST">
+                <form action="{{route('admin.jenisram.ubah')}}" method="POST">
                     @csrf
-                      <div class="form-group">
-                          <label for="">Jenis Perangkat</label>
-                          <input type="text" name="jenisperangkat" class="form-control" placeholder="{{$j->nama_perangkat}}" aria-describedby="helpId" required>
-                      </div>
+                    <input type="hidden" name="id" value="{{$jr->id}}">
+                    <div class="form-group">
+                        <label for="">Jenis Ram</label>
+                        <input type="text" name="jenisram" class="form-control" placeholder="Misal : DDR3" aria-describedby="helpId" required>
+                    </div>
             </div>
             <div class="modal-footer">
-                <input type="hidden" name="id" value="{{$j->id}}" required>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Edit</a>
                     </form>
@@ -147,7 +138,7 @@
     <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
     <script>
         $(function() {
-            $('#jenisperangkat').DataTable({
+            $('#jenisram').DataTable({
                 "paging": true,
                 "lengthChange": false,
                 "searching": true,

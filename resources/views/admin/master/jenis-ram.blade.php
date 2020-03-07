@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','Data Master Jenis Ram')
+@section('page_title','Data Master - Jenis Ram')
 
 @section('content-header')
 <h3 class="text-center">Data Master Jenis Ram</h3>

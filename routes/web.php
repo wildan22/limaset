@@ -36,6 +36,8 @@ Route::middleware('is_admin')->group(function (){
     Route::get('/admin/data-master/sistem-operasi', 'AdminController@showMasterSistemOperasi')->name('admin.sistemoperasi');
     /** TAMPILKAN HALAMAN MASTER JENIS RAM */
     Route::get('/admin/data-master/jenis-ram', 'AdminController@showMasterJenisRam')->name('admin.jenisram');
+    /** TAMPILKAN HALAMAN MASTER Ukuran Penyimpanan */
+    Route::get('/admin/data-master/ukuran-penyimpanan', 'AdminController@showMasterUkuranPenyimpanan')->name('admin.ukuranpenyimpanan');
 
     /** TAMPILKAN HALAMAN MANAJEMEN-USER.LIST */
     Route::get('/admin/manajemen-user/list-user', 'AdminController@showManajemenUserList')->name('admin.manajemenuser.list');
@@ -85,7 +87,7 @@ Route::middleware('is_admin')->group(function (){
      /** TAMPILKAN HALAMAN LIST INVENTARIS */
      Route::get('/admin/manajemen-inventaris/list-inventaris', 'AdminController@showListInventaris')->name('admin.listinventaris');
      /** TAMPILKAN HALAMAN NEW-INVENTARIS */
-     Route::get('/admin/manajemen-inventaris/new-inventaris', 'AdminController@showFormNewInventaris')->name('admin.forminventaris');
+     Route::get('/admin/manajemen-inventaris/new-inventaris   ', 'AdminController@showFormNewInventaris')->name('admin.forminventaris');
 
 });
 
