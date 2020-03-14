@@ -28,6 +28,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::middleware('is_admin')->group(function (){
     //TAMPILKAN INDEX/DASHBOARD ADMIN
     Route::get('/admin', 'AdminController@showDashboard')->name('admin.home');
+    //TAMPILKAN PROFILE ADMIN
+    Route::get('/admin/profile', 'AdminController@showProfile')->name('admin.profile');
     //TAMPILKAN HALAMAN MASTER KATEGORI
     Route::get('/admin/data-master/kategori', 'AdminController@showMasterKategori')->name('admin.kategori');
     //TAMPILKAN HALAMAN MASTER JENIS PERANGKAT
@@ -38,6 +40,8 @@ Route::middleware('is_admin')->group(function (){
     Route::get('/admin/data-master/jenis-ram', 'AdminController@showMasterJenisRam')->name('admin.jenisram');
     /** TAMPILKAN HALAMAN MASTER Ukuran Penyimpanan */
     Route::get('/admin/data-master/ukuran-penyimpanan', 'AdminController@showMasterUkuranPenyimpanan')->name('admin.ukuranpenyimpanan');
+    /** TAMPILKAN HALAMAN MASTER UNIT */
+    Route::get('/admin/data-master/unit', 'AdminController@showUnit')->name('admin.unit');
 
     /** TAMPILKAN HALAMAN MANAJEMEN-USER.LIST */
     Route::get('/admin/manajemen-user/list-user', 'AdminController@showManajemenUserList')->name('admin.manajemenuser.list');
