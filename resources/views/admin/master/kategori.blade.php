@@ -87,7 +87,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                Apakah Anda Yakin akan Menghapus Data ini?
+                Apakah Anda Yakin akan Menghapus <b>{{$k->category_name}}</b> ?
             </div>
             <div class="modal-footer">
                 <form method="POST" action="{{route('admin.kategori.hapus')}}">
