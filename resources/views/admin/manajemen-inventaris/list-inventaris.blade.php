@@ -95,7 +95,7 @@
 {{-- Akhir Delete Modal --}}
 
 {{-- Edit Detail Inventaris --}}
-<div class="modal fade" id="modalDetail{{$i->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="modalEdit{{$i->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
