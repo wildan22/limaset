@@ -36,6 +36,12 @@ class AdminController extends Controller
         return view('admin.index',['baik'=>$barangbaik,'kurangbaik'=>$barangkurangbaik,'rusak'=>$barangrusak,'pendinguser'=>$pendinguser,'tahunbarang'=>$tahunbarang,'datacabang'=>$datacabang,'databarang'=>$databarang]);
     }
 
+    /** Tampilkan Halaman Profile Admin */
+    public function showProfile(){
+        $profile = category::all();
+        return view('admin.profile',['profile'=>$profile]);
+    }
+
     /** Tampilkan Halaman Master.Kategori */
     public function showMasterKategori(){
         $kategori = category::all();
@@ -66,6 +72,11 @@ class AdminController extends Controller
         $ukuranpenyimpanan = storage_size::all();
         $kategori = category::all();
         return view('admin.master.ukuran-penyimpanan',['ukuranpenyimpanan'=>$ukuranpenyimpanan,'kategori'=>$kategori]);
+    }
+
+    public function showUnit(){
+        $unit = category::all();
+        return view('admin.master.unit',['unit'=>$unit]);
     }
 
     /** Tampilkan Halaman Manajemen-User.List */
