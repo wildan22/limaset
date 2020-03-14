@@ -89,6 +89,14 @@ Route::middleware('is_admin')->group(function (){
      /** TAMPILKAN HALAMAN NEW-INVENTARIS */
      Route::get('/admin/manajemen-inventaris/new-inventaris   ', 'AdminController@showFormNewInventaris')->name('admin.forminventaris');
 
+     /** PROSES TAMBAH DATA INVENTARIS */
+     Route::POST('/admin/manajemen-inventaris/new-inventaris/tambah', 'AdminController@tambahInventaris')->name('admin.inventaris.tambah');
+     
+});
+
+Route::middleware('is_operator')->group(function (){
+    //TAMPILKAN INDEX/DASHBOARD ADMIN
+    Route::get('/operator', 'OperatorController@showDashboard')->name('operator.home');
 });
 
 //-- HANYA UNTUK TESTING --//

@@ -15,13 +15,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <title>@yield('page_title')</title>
 
     <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
     @yield('css')
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -78,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
                 <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Kantor Direksi</span>
+                <span class="brand-text font-weight-light">{{Auth::user()->unit->alias}}</span>
             </a>
 
             <!-- Sidebar -->
@@ -130,9 +129,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="/admin/data-master/ukuran-penyimpanan" class="nav-link">
+                                    <a href="/admin/data-master/unit" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Ukuran Penyimpanan</p>
+                                        <p>Unit</p>
                                     </a>
                                 </li>
                             </ul>
@@ -178,6 +177,43 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 </li>
                                 <li class="nav-item">
                                     <a href="/admin/manajemen-inventaris/list-inventaris" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Inventaris List</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                @elseif(Auth::user()->level->keterangan == "OPERATOR")
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a href="/operator" class="nav-link {{ Request::path() === 'admin' ? 'active': ''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link {{ request()->is('operator/manajemen-inventaris/*') ? 'active': ''}}">
+                                <i class="fas fa-dolly"></i>
+                                <p>
+                                    Manajemen Inventaris
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/operator/manajemen-inventaris/new-inventaris" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Tambah Inventaris</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/operator/manajemen-inventaris/list-inventaris" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Inventaris List</p>
                                     </a>

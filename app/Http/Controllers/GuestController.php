@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\requested_user;
 use Validator;
 use Auth;
+use App\unit;
 
 class GuestController extends Controller
 {
     public function showSelfRegist(){
-        return view('self-regist');
+        $units = unit::all();
+        return view('self-regist',['units'=>$units]);
     }
 
     public function prosesSelfRegist(Request $request){

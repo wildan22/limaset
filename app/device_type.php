@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class device_type extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['nama_perangkat','category_id'];
+    protected $fillable = ['nama_perangkat','category_id','kode_inventaris'];
 
     public function category(){
         return $this->belongsTo('App\category');

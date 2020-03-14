@@ -13,11 +13,14 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../../plugins/icheck-bootstrap/icheck-bootstrap.min.css"> 
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+    <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
 
 <body class="hold-transition register-page">
@@ -80,11 +83,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" style="width: 100%;" name="unit" required>
-                            <option value hidden disable>Nama Unit</option>
-                            <option value="1">BETA</option>
-                            <option value="2">BEKA</option>
-                            <option value="3">BUMA</option>
+                        <select class="form-control select2" data-placeholder="UNIT" style="width: 100%;" name="unit" required>
+                            <option value hidden disable></option>
+                            @foreach($units as $unit)
+                            <option value="{{$unit->id}}">{{$unit->alias}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="row">
@@ -112,6 +115,16 @@
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../../dist/js/adminlte.min.js"></script>
+    <script src="../../plugins/select2/js/select2.js"></script>
+    <script>
+        $(function () {
+            $('.select2').select2({
+                placeholder: function () {
+                    $(this).data('placeholder');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

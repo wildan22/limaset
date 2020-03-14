@@ -2,6 +2,9 @@
 @section('css')
 <!-- DataTables -->
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @endsection
 
 @section('page_title','Manajemen User - List Pending User')
@@ -74,7 +77,8 @@
 </div>
 
 <!-- Accept Modal -->
-<div class="modal fade" id="acceptModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="acceptModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -88,13 +92,13 @@
                     @csrf
                     <input type="hidden" name="id" value="{{$user->id}}">
                     <div class="form-group">
-                      <label for="">Level</label>
-                      <select class="form-control" name="levelid" id="" required>
-                        <option value hidden disable>Level User</option>
-                        @foreach($level as $l)
-                      <option value="{{$l->id}}">{{$l->keterangan}}</option>
-                        @endforeach
-                      </select>
+                        <label for="levelid">Level</label>
+                        <select class="form-control select2" name="levelid" data-placeholder="Level" required>
+                            <option value hidden disable></option>
+                            @foreach($level as $l)
+                            <option value="{{$l->id}}">{{$l->keterangan}}</option>
+                            @endforeach
+                        </select>
                     </div>
             </div>
             <div class="modal-footer">
@@ -112,6 +116,7 @@
     <!-- DataTables -->
     <script src="../../plugins/datatables/jquery.dataTables.js"></script>
     <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="../../plugins/select2/js/select2.js"></script>
     <script>
         $(function() {
             $('#jenisram').DataTable({
@@ -121,6 +126,11 @@
                 "ordering": true,
                 "info": true,
                 "autoWidth": false,
+            });
+            $('.select2').select2({
+                placeholder: function () {
+                    $(this).data('placeholder');
+                }
             });
         });
     </script>

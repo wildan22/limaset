@@ -20,41 +20,43 @@
 <div class="card">
     <div class="card-body">
         <table id="listInventaris" class="table table-bordered table-hover">
-            @php
-            $no = 1;
-            @endphp
+            <?php $no=1 ?>
             <thead>
                 <tr>
                     <th width="5%">No. </th>
                     <th width="15%">Jenis</th>
                     <th width="15%">Merek</th>
-                    <th width="12%">Kondisi</th>
-                    <th width="12%">Tahun</th>
+                    <th width="10%">Kondisi</th>
+                    <th width="7%">Tahun</th>
                     <th width="35%">No. Inventaris</th>
-                    <th width="5">Detail</th>
+                    <th width="5%">Detail</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($users as $user) --}}
+                @foreach ($inventaris as $i)
                 <tr>
-                    {{-- <td>{{$no++}}</td>
-                    <td>{{$user->name}}</td>
-                    <td>{{$user->email}}</td>
-                    <td>{{$user->level->keterangan}}</td>
-                    <td>{{$user->unit->alias}}</td> --}}
-                    <td>1</td>
-                    <td>Laptop</td>
-                    <td>Omen</td>
-                    <td>Baru</td>
-                    <td>2020</td>
-                    <td>JR/PTPN7/INV/LP/299/X/12</td>
+                    <td>{{$no++}}</td>
+                    <td>{{$i->devicetype->nama_perangkat}}</td>
+                    <td>{{$i->nama_barang}}</td>
+                    <td>
+                        @if($i->kondisi == "BAIK")
+                        <span class="btn btn-success">BAIK</span>
+                        @elseif($i->kondisi == "KURANG BAIK")
+                        <span class="badge badge-warning">KURANG BAIK</span>
+                        @else
+                        <span class="badge badge-danger">RUSAK</span>
+                        @endif
+
+                    </td>
+                    <td>{{$i->tahun_perolehan}}</td>
+                    <td>{{$i->nomor_inventaris}}</td>
                     <td class="text-center">
-                        <a class="btn btn-warning text-white" data-toggle="modal" data-target="#modalDetail">
+                    <a class="btn btn-warning text-white" data-toggle="modal" data-target="#modalDetail{{$i->id}}">
                             <i class="fas fa-search"></i>
                         </a>
                     </td>
                 </tr>
-                {{-- @endforeach --}}
+                @endforeach
 
             </tbody>
         </table>
@@ -63,8 +65,8 @@
 </div>
 
 {{-- Modal - Detail Inventaris --}}
-{{-- @foreach ($users as $user) --}}
-<div class="modal fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+@foreach ($inventaris as $i)
+<div class="modal fade" id="modalDetail{{$i->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -74,43 +76,47 @@
             <div class="container">
                 <div class="row">
                     <div class="col-4"><b> Perangkat</div></b>
-                    <div class="col-8">Laptop</div>
+                    <div class="col-8">{{$i->devicetype->nama_perangkat}}</div>
                   </div>
                 <div class="row">
                   <div class="col-4"><b>Merk</div></b>
-                  <div class="col-8">Asus ROG</div>
+                  <div class="col-8">{{$i->nama_barang}}</div>
                 </div>
                 <div class="row">
                     <div class="col-4"><b>Serial Number</div></b>
-                    <div class="col-8">V8MAJ00RA</div>
+                    <div class="col-8">{{$i->serial_number}}</div>
                 </div>
                 <div class="row">
                     <div class="col-4"><b>Sistem Operasi</div></b>
-                    <div class="col-8">Windows 10</div>
+                    <div class="col-8">{{$i->operating_system->os_name}}</div>
                   </div>
                   <div class="row">
                     <div class="col-4"><b>Computer Name</div></b>
-                    <div class="col-8">N7-BEKA-TAHER</div>
+                    <div class="col-8">{{$i->computer_name}}</div>
                   </div>
                   <div class="row">
                     <div class="col-4"><b>Storage</div></b>
-                    <div class="col-8">1TB</div>
+                    <div class="col-8">{{$i->storage_size}}</div>
                   </div>
                   <div class="row">
                     <div class="col-4"><b>RAM</div></b>
-                    <div class="col-8">8GB</div>
+                    <div class="col-8">{{$i->ram_size}}</div>
                   </div>
                   <div class="row">
                     <div class="col-4"><b>Processor</div></b>
-                    <div class="col-8">AMD Ryzen 7</div>
+                    <div class="col-8">{{$i->processor}}</div>
                   </div>
                   <div class="row">
-                    <div class="col-4"><b>Mac Address</div></b>
-                    <div class="col-8">18-60-88-11-12-33</div>
+                    <div class="col-4"><b>Wi-Fi Mac Address</div></b>
+                    <div class="col-8">{{$i->wifi_mac}}</div>
+                  </div>
+                  <div class="row">
+                    <div class="col-4"><b>Lan Mac Address</div></b>
+                    <div class="col-8">{{$i->lan_mac}}</div>
                   </div>
                   <div class="row">
                     <div class="col-4"><b>Tahun Perolehan</div></b>
-                    <div class="col-8">2018</div>
+                    <div class="col-8">{{$i->tahun_perolehan}}</div>
                   </div>
                   
             <div class="modal-footer">
@@ -120,7 +126,7 @@
         </div>
     </div>
 </div>
-{{-- @endforeach --}}
+@endforeach
 {{-- Akhir Modal Detail Inventaris --}}
 
 @endsection

@@ -16,10 +16,10 @@ class CreateDeviceTypesTable extends Migration
         Schema::create('device_types', function (Blueprint $table) {
             $table->Increments('id');
             $table->string('nama_perangkat');
+            $table->string('kode_inventaris');
             $table->integer('category_id')->unsigned();
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreign('category_id')->references('id')->on('categories');
         });
     }

@@ -22,7 +22,7 @@ class CreateRequestedUsersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('units_id')->references('id')->on('units');
+            $table->foreign('unit_id')->references('id')->on('units');
         });
     }
 

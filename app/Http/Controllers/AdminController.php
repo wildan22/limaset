@@ -12,12 +12,28 @@ use App\User;
 use App\requested_user;
 use App\level;
 use App\unit;
+use App\storage_size;
+use App\goods;
+use DB;
+use Auth;
 
 class AdminController extends Controller
 {
     /** Tampilkan Halaman Dashboard */
     public function showDashboard(){
-        return view('admin.index');
+        $barangbaik = goods::where('kondisi','BAIK')->count();
+        $barangkurangbaik = goods::where('kondisi','KURANG BAIK')->count();
+        $barangrusak = goods::where('kondisi','RUSAK')->count();
+        $pendinguser = requested_user::count();
+        $tahunbarang = DB::table('goods')
+                ->select('tahun_perolehan')
+                ->whereNotNull('tahun_perolehan')
+                ->distinct()
+                ->orderBy('tahun_perolehan', 'asc')
+                ->get();
+        $datacabang = unit::all();
+        $databarang = goods::all();
+        return view('admin.index',['baik'=>$barangbaik,'kurangbaik'=>$barangkurangbaik,'rusak'=>$barangrusak,'pendinguser'=>$pendinguser,'tahunbarang'=>$tahunbarang,'datacabang'=>$datacabang,'databarang'=>$databarang]);
     }
 
     /** Tampilkan Halaman Master.Kategori */
@@ -69,13 +85,18 @@ class AdminController extends Controller
 
     /** Tampilkan Halaman Manajemen-Inventaris.List-Inventaris */
     public function showListInventaris(){
-        $list = requested_user::all();
-        return view('admin.manajemen-inventaris.list-inventaris',['list'=>$list]);
+        $inventaris = goods::all();
+        return view('admin.manajemen-inventaris.list-inventaris',['inventaris'=>$inventaris]);
     }
 
       /** Tampilkan Halaman Manajemen-Inventaris.new-Inventaris */
       public function showFormNewInventaris(){
-        return view('admin.manajemen-inventaris.new-inventaris');
+        $category = category::all();
+        $device = device_type::all();
+        $ramtype = ram_type::all();
+        $operatingsystem = operating_system::all();
+        $units = unit::all();
+        return view('admin.manajemen-inventaris.new-inventaris',['category'=>$category,'device'=>$device,'ramtype'=>$ramtype,'operatingsystem'=>$operatingsystem,'units'=>$units]);
     }
 
     /** Tampilkan Halaman Manajemen-User.Tambah-User */
@@ -125,11 +146,13 @@ class AdminController extends Controller
     public function simpanJenisPerangkatBaru(Request $request){
         $this->validate($request,[
             'kategori_id' => 'required',
-            'jenisperangkat' => 'required|min:3'
+            'jenisperangkat' => 'required|min:3',
+            'kodeinventaris' => 'required|min:1|unique:device_types,kode_inventaris'
         ]);
         device_type::create([
             'category_id' => $request->kategori_id,
-            'nama_perangkat' => $request->jenisperangkat
+            'nama_perangkat' => $request->jenisperangkat,
+            'kode_inventaris' => $request->kodeinventaris
         ]);
         Alert::success('Sukses','Data Berhasil Ditambahkan');
         return redirect()->route('admin.jenisperangkat');
@@ -150,10 +173,12 @@ class AdminController extends Controller
     public function ubahJenisPerangkat(Request $request){
         $this->validate($request,[
             'id' =>'required',
-            'jenisperangkat' => 'required|min:3'
+            'jenisperangkat' => 'required|min:3',
+            'kodeinventaris' => 'required|min:1|unique:device_types,kode_inventaris'
         ]);
         $jenisperangkat = device_type::find($request->id);
         $jenisperangkat->nama_perangkat=$request->jenisperangkat;
+        $jenisperangkat->kode_inventaris=$request->kodeinventaris;
         $jenisperangkat->save();
         Alert::success('Sukses','Data Berhasil Diubah');
         return redirect()->route('admin.jenisperangkat');
@@ -290,5 +315,76 @@ class AdminController extends Controller
         $sistemoperasi->delete();
         Alert::success('Sukses','Data Berhasil Dihapus');
         return redirect()->route('admin.manajemenuser.list');
+    }
+
+    /**Proses Tambah Data Inventaris */
+    public function tambahInventaris(Request $request){
+        if($request->optionalcondition == 1){
+            $this->validate($request,[
+                'merkperangkat' => 'required|min:3',
+                'jenisperangkat' => 'required|min:1',
+                'serialnumber' => 'required|min:1',
+                'kondisi' => 'required|min:3',
+                'keterangan' => 'required|min:3',
+                'unit' => 'required|min:1',
+                
+                'processor' => 'required|min:3',
+                'storagesize' => ['required','regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'],
+                'ramsize' => ['required','regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'],
+                'ramtype' => 'required|min:1',
+                'sistemoperasi' => 'required|min:1',
+                'computername' => 'required|min:1',
+                'wifimac' => ['required','regex:/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/'],
+                'lanmac' => ['required','regex:/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/'],
+                'tahunoleh' => 'required|min:4'
+            ],[
+                'wifimac.regex' => 'Format Mac Address Tidak Sesuai',
+                'lanmac.regex' => 'Format Mac Address Tidak Sesuai'
+            ]);
+            $tambahinventaris = goods::create([
+                'device_type_id' => $request->jenisperangkat,
+                'nama_barang' => $request->merkperangkat,
+                'serial_number' => $request->serialnumber,
+                'processor' => $request->processor,
+                'storage_size' => $request->storagesize,
+                'ram_size' => $request->ramsize,
+                'ram_type_id' => $request->ramtype,
+                'storage_size' => $request->storagesize,
+                'unit_id' => $request->unit,
+                'operating_system_id' => $request->sistemoperasi,
+                'computer_name' => $request->computername,
+                'wifi_mac' => $request->wifimac,
+                'lan_mac' => $request->lanmac,
+                'kondisi' => $request->kondisi,
+                'tahun_perolehan' => $request->tahunoleh,
+                'keterangan' => $request->keterangan,
+                'created_by' => Auth::user()->id
+            ]);
+            $device_code = device_type::find($tambahinventaris->device_type_id);
+            $generate = goods::find($tambahinventaris->id);
+            $generate->nomor_inventaris="RJ/PTPN7/INV/".$device_code->kode_inventaris."/".$tambahinventaris->id."/".$tambahinventaris->tahun_perolehan;
+            $generate->save();
+        }
+        else{
+            $this->validate($request,[
+                'merkperangkat' => 'required|min:3',
+                'jenisperangkat' => 'required|min:1',
+                'serialnumber' => 'required|min:1',
+                'kondisi' => 'required|min:3',
+                'keterangan' => 'required|min:3',
+                'unit' => 'required|min:1',
+            ]);
+            $tambahinventaris = goods::create([
+                'device_type_id' => $request->jenisperangkat,
+                'nama_barang' => $request->merkperangkat,
+                'serial_number' => $request->serialnumber,
+                'kondisi' => $request->kondisi,
+                'keterangan' => $request->keterangan,
+                'unit_id' => $request->unit,
+                'created_by' => Auth::user()->id,
+                'operating_system_id' => 14
+            ]);
+        }
+        
     }
 }
