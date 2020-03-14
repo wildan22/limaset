@@ -97,6 +97,14 @@ Route::middleware('is_admin')->group(function (){
 Route::middleware('is_operator')->group(function (){
     //TAMPILKAN INDEX/DASHBOARD ADMIN
     Route::get('/operator', 'OperatorController@showDashboard')->name('operator.home');
+    //TAMPILKAN INDEX/DASHBOARD ADMIN
+    Route::get('/operator/manajemen-inventaris/new-inventaris', 'OperatorController@showNewInventaris')->name('operator.forminventaris');
+    /** TAMPILKAN HALAMAN LIST INVENTARIS */
+    Route::get('/operator/manajemen-inventaris/list-inventaris', 'OperatorController@showListInventaris')->name('operator.listinventaris');
+
+    /** PROSES TAMBAH DATA INVENTARIS */
+    Route::POST('/operator/manajemen-inventaris/new-inventaris/tambah', 'OperatorController@tambahInventaris')->name('operator.inventaris.tambah');
+
 });
 
 //-- HANYA UNTUK TESTING --//

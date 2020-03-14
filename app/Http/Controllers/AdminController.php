@@ -364,6 +364,8 @@ class AdminController extends Controller
             $generate = goods::find($tambahinventaris->id);
             $generate->nomor_inventaris="RJ/PTPN7/INV/".$device_code->kode_inventaris."/".$tambahinventaris->id."/".$tambahinventaris->tahun_perolehan;
             $generate->save();
+            Alert::success('Sukses','Data Inventaris Berhasil Ditambahkan');
+            return redirect()->route('admin.listinventaris');
         }
         else{
             $this->validate($request,[
@@ -384,6 +386,8 @@ class AdminController extends Controller
                 'created_by' => Auth::user()->id,
                 'operating_system_id' => 14
             ]);
+            Alert::success('Sukses','Data Inventaris Berhasil Ditambahkan');
+            return redirect()->route('admin.listinventaris');
         }
         
     }
