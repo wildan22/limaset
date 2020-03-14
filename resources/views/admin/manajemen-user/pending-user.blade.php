@@ -62,7 +62,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                Apakah Anda yakin ingin menolak akun ini?
+                Apakah Anda yakin ingin menolak <b>{{$user->name}}</b> ?
             </div>
             <div class="modal-footer">
                 <form method="POST" action="{{route('admin.manajemenuser.pending.tolak')}}">
