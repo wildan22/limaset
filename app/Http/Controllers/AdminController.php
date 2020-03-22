@@ -14,6 +14,8 @@ use App\level;
 use App\unit;
 use App\storage_size;
 use App\goods;
+use \Colors\RandomColor;
+
 use DB;
 use Auth;
 
@@ -75,8 +77,8 @@ class AdminController extends Controller
     }
 
     public function showUnit(){
-        $unit = category::all();
-        return view('admin.master.unit',['unit'=>$unit]);
+        $units = unit::all();
+        return view('admin.master.unit',['units'=>$units]);
     }
 
     /** Tampilkan Halaman Manajemen-User.List */
@@ -317,6 +319,59 @@ class AdminController extends Controller
         return redirect()->route('admin.manajemenuser.list');
     }
 
+    /** Proses Edit User Password */
+    public function ubahPasswordUser(Request $request){
+        $this->validate($request,[
+            'id'=>'required|min:1',
+            'password'=>'required|min:8|confirmed'
+        ]);
+        $ubahpassworduser = User::where('id',$request->id)
+                            ->update([
+                                'password' => bcrypt($request->password)
+                            ]);
+        if($ubahpassworduser==true){
+            Alert::success('Sukses','Password User Berhasil Diubah');
+        }
+        else{
+            Alert::danger('Sukses','Password User Gagal Diubah');
+        }
+
+        //MENCEK APABILA USER MENGGANTI PASSWORD AKUNNYA
+        if($request->id == Auth::user()->id){
+            return redirect()->route('logout');
+            Alert::success('Sukses','Password User Berhasil Diubah');
+        }
+        else{
+            return redirect()->route('admin.manajemenuser.list');
+        }
+    }
+
+    /** Proses Edit User Detail */
+    public function ubahUserDetail(Request $request){
+        $this->validate($request,[
+            'id'=>'required|min:1',
+            'nama'=>'required|min:3',
+            'email'=>'required|min:3|email|unique:users,email',
+            'level'=>'required|min:1',
+            'unit'=>'required|min:1'
+        ]);
+        $ubahdetail = User::where('id',$request->id)
+                    ->update([
+                        'name' => $request->nama,
+                        'email' => $request->email,
+                        'level_id' => $request->level,
+                        'unit_id' => $request->unit
+                    ]);
+        if($ubahdetail==true){
+            Alert::success('Sukses','Data Berhasil Diubah');
+            return redirect()->route('admin.manajemenuser.list');
+        }
+        else{
+            Alert::danger('Sukses','Data Gagal Diubah');
+            return redirect()->route('admin.manajemenuser.list');
+        }
+    }
+
     /** Proses Hapus User */
     public function hapusUser(Request $request){
         $this->validate($request,[
@@ -401,5 +456,157 @@ class AdminController extends Controller
             return redirect()->route('admin.listinventaris');
         }
         
+    }
+
+    /**PROSES HAPUS DATA INVENTARIS */
+    public function hapusInventaris(Request $request){
+        $this->validate($request,[
+            'id'=>'required|min:1'
+        ]);
+        $inventaris = goods::find($request->id);
+        $inventaris->delete();
+        Alert::success('Sukses','Data Berhasil Dihapus');
+        return redirect()->route('admin.listinventaris');
+    }
+
+    /** TAMPILKAN HALAMAAN EDIT INVENTARIS */
+    public function showFormEditInventaris(Request $request){
+        $this->validate($request,[
+            'id'=>'required|min:1'
+        ]);
+        $category = category::all();
+        $device = device_type::all();
+        $ramtype = ram_type::all();
+        $operatingsystem = operating_system::all();
+        $units = unit::all();
+        $inventaris = goods::find($request->id);
+        $inventaris->get();
+        return view('admin.manajemen-inventaris.edit-inventaris',[
+            'inventaris'=>$inventaris,
+            'category'=>$category,
+            'device'=>$device,
+            'ramtype'=>$ramtype,
+            'operatingsystem'=>$operatingsystem,
+            'units'=>$units,
+        ]);
+    }
+
+    public function editInventaris(Request $request){
+        if($request->optionalcondition == 1){
+            $this->validate($request,[
+                'id' => 'required|min:1',
+                'merkperangkat' => 'required|min:3',
+                'jenisperangkat' => 'required|min:1',
+                'serialnumber' => 'required|min:1',
+                'kondisi' => 'required|min:3',
+                'keterangan' => 'required|min:3',
+                'unit' => 'required|min:1',
+                
+                'processor' => 'required|min:3',
+                'storagesize' => ['required','regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'],
+                'ramsize' => ['required','regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'],
+                'ramtype' => 'required|min:1',
+                'sistemoperasi' => 'required|min:1',
+                'computername' => 'required|min:1',
+                'wifimac' => ['required','regex:/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/'],
+                'lanmac' => ['required','regex:/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/'],
+                'tahunoleh' => 'required|min:4'
+            ],[
+                'wifimac.regex' => 'Format Mac Address Tidak Sesuai',
+                'lanmac.regex' => 'Format Mac Address Tidak Sesuai'
+            ]);
+            $ubahinventaris = goods::where('id',$request->id)
+                            ->update([
+                                'device_type_id' => $request->jenisperangkat,
+                                'nama_barang' => $request->merkperangkat,
+                                'serial_number' => $request->serialnumber,
+                                'processor' => $request->processor,
+                                'storage_size' => $request->storagesize,
+                                'ram_size' => $request->ramsize,
+                                'ram_type_id' => $request->ramtype,
+                                'storage_size' => $request->storagesize,
+                                'unit_id' => $request->unit,
+                                'operating_system_id' => $request->sistemoperasi,
+                                'computer_name' => $request->computername,
+                                'wifi_mac' => $request->wifimac,
+                                'lan_mac' => $request->lanmac,
+                                'kondisi' => $request->kondisi,
+                                'tahun_perolehan' => $request->tahunoleh,
+                                'keterangan' => $request->keterangan,
+                                'created_by' => Auth::user()->id
+                            ]);
+            
+        }
+        else{
+            $this->validate($request,[
+                'merkperangkat' => 'required|min:3',
+                'jenisperangkat' => 'required|min:1',
+                'serialnumber' => 'required|min:1',
+                'kondisi' => 'required|min:3',
+                'keterangan' => 'required|min:3',
+                'unit' => 'required|min:1',
+            ]);
+            $ubahinventaris = goods::where('id',$request->id)
+                            ->update([
+                                'device_type_id' => $request->jenisperangkat,
+                                'nama_barang' => $request->merkperangkat,
+                                'serial_number' => $request->serialnumber,
+                                'kondisi' => $request->kondisi,
+                                'keterangan' => $request->keterangan,
+                                'unit_id' => $request->unit,
+                                'created_by' => Auth::user()->id,
+                                'operating_system_id' => 14
+                            ]);
+        }
+        if($ubahinventaris==1){
+            Alert::success('Sukses','Data Berhasil Diubah');
+            return redirect()->route('admin.listinventaris');
+        }
+        else{
+            Alert::danger('Sukses','Data Gagal Diubah');
+            return redirect()->route('admin.listinventaris');
+        }
+    }
+
+    /** Proses Hapus Unit/Cabang */
+    public function hapusUnit(Request $request){
+        $this->validate($request,[
+            'id'=>'required|min:1'
+        ]);
+        $unit = unit::find($request->id);
+        $unit->delete();
+        Alert::success('Sukses','Data Berhasil Dihapus');
+        return redirect()->route('admin.unit');
+    }
+
+    /** Proses Tambah Unit/Cabang */
+    public function tambahUnit(Request $request){
+        $this->validate($request,[
+            'namaunit'=>'required|min:1',
+            'inisialunit'=>'required|min:1',
+        ]);
+        unit::create([
+            'alias'=>$request->inisialunit,
+            'keterangan'=>$request->namaunit,
+            'color'=>RandomColor::one(array(
+                'luminosity' => 'light'
+            ))
+        ]);
+        Alert::success('Sukses','Data Unit Berhasil Ditambahkan');
+        return redirect()->route('admin.unit');
+    }
+
+    public function ubahUnit(Request $request){
+        $this->validate($request,[
+            'namaunit'=>'required|min:1',
+            'inisialunit'=>'required|min:1',
+        ]);
+        $unit = unit::find($request->id);
+        $unit->alias = $request->inisialunit;
+        $unit->keterangan = $request->namaunit;
+        $unit->save();
+
+        Alert::success('Sukses','Data Berhasil Diperbaharui');
+        return redirect()->route('admin.unit');
     }
 }

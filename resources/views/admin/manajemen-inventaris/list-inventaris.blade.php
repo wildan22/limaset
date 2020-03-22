@@ -25,11 +25,11 @@
                 <tr>
                     <th width="5%">No. </th>
                     <th width="15%">Jenis</th>
-                    <th width="10%">Merek</th>
+                    <th width="20%">Merek</th>
                     <th width="10%">Kondisi</th>
-                    <th width="7%">Tahun</th>
-                    <th width="35%">No. Inventaris</th>
-                    <th width="17%">Detail</th>
+                    <th width="5%">Tahun</th>
+                    <th width="25%">No. Inventaris</th>
+                    <th width="20%">Detail</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,9 +40,9 @@
                     <td>{{$i->nama_barang}}</td>
                     <td>
                         @if($i->kondisi == "BAIK")
-                        <span class="btn btn-success">BAIK</span>
+                        <span class="badge badge-success">BAIK</span>
                         @elseif($i->kondisi == "KURANG BAIK")
-                        <span class="badge badge-warning">KURANG BAIK</span>
+                        <span class="badge badge-warning">KURANG</span>
                         @else
                         <span class="badge badge-danger">RUSAK</span>
                         @endif
@@ -51,19 +51,23 @@
                     <td>{{$i->tahun_perolehan}}</td>
                     <td>{{$i->nomor_inventaris}}</td>
                     <td class="text-center">
-                    <a class="btn btn-primary text-white" data-toggle="modal" data-target="#modalDetail{{$i->id}}">
+                    <form action="{{route('admin.inventaris.formedit')}}" method="POST">
+                        <a class="btn btn-primary text-white" data-toggle="modal" data-target="#modalDetail{{$i->id}}">
                             <i class="fas fa-search"></i>
                         </a>
                         -
-                        <a class="btn btn-warning text-white" data-toggle="modal" data-target="#modalEdit{{$i->id}}">
+                        @csrf
+                        <input type="hidden" name="id" value="{{$i->id}}">
+                        <button type="submit" class="btn btn-warning text-white">
                             <i class="fas fa-edit"></i>
-                        </a>                        
+                        </button>
+
                         -
                         <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal-{{$i->id}}">
                             <i class="fas fa-trash"></i>
                         </a>
-                    </td>
-                    
+                        </td>
+                    </form>
                 </tr>
                 @endforeach
 
@@ -79,10 +83,10 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                Apakah Anda Yakin akan Menghapus <b>{{$i->devicetype->nama_perangkat}}</b> ?
+                Apakah Anda Yakin akan Menghapus <b>{{$i->nama_barang}}</b> ?
             </div>
             <div class="modal-footer">
-                <form method="POST" action="{{route('admin.jenisperangkat.hapus')}}">
+                <form method="POST" action="{{route('admin.inventaris.hapus')}}">
                     @csrf
                     <input type="hidden" name="id" value="{{$i->id}}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -176,6 +180,7 @@
             "info": true,
             "autoWidth": false,
         });
+
     });
 
 </script>

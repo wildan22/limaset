@@ -7,6 +7,10 @@ use App\unit;
 use App\category;
 use App\ram_type;
 use App\operating_system;
+use App\device_type;
+use App\goods;
+use \Colors\RandomColor;
+
 use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
@@ -32,7 +36,10 @@ class UserSeeder extends Seeder
         for($i=0;$i<3;$i++){
             unit::create([
                 'alias'=> $unit_alias[$i],
-                'keterangan'=> $unit_ket[$i]
+                'keterangan'=> $unit_ket[$i],
+                'color'=>RandomColor::one(array(
+                    'luminosity' => 'light'
+                ))
             ]);
         }
 
@@ -69,6 +76,41 @@ class UserSeeder extends Seeder
         foreach($operatingsystem as $os){
             operating_system::create([
                 'os_name' => $os
+            ]);
+        }
+
+        /** SEEDER TIPE PERANGKAT */
+        $perangkatjaringan = ["Router","Managed Switch 24-Port","Switch","Hub"];
+        $pjkodeinvent = ["RTR","MSWTCH24","SWTCH","HUB"];
+        for($i=0;$i<4;$i++){
+            device_type::create([
+                'nama_perangkat' => $perangkatjaringan[$i],
+                'category_id' => 1,
+                'kode_inventaris' => $pjkodeinvent[$i]
+            ]);
+        }
+
+        //** SEEDER GOODS */
+        $kondisi = ["BAIK","KURANG BAIK","RUSAK"];
+        for($i=0;$i<100;$i++){
+            $tambahinventaris = goods::create([
+                'device_type_id' => $faker->numberBetween($min=1,$max=4),
+                'nama_barang' => $faker->name,
+                'serial_number' => $faker->numberBetween($min=1000000000,$max=9999999999),
+                'processor' => "PROCESSOR",
+                'storage_size' => $faker->numberBetween($min=500,$max=5000),
+                'ram_size' => $faker->numberBetween($min=1,$max=16),
+                'ram_type_id' => $faker->numberBetween($min=1,$max=9),
+                'storage_size' => $faker->numberBetween($min=500,$max=5000),
+                'unit_id' => $faker->numberBetween($min=1,$max=3),
+                'operating_system_id' => $faker->numberBetween($min=1,$max=14),
+                'computer_name' => $faker->userName,
+                'wifi_mac' => $faker->macAddress,
+                'lan_mac' => $faker->macAddress,
+                'kondisi' => $kondisi[$faker->numberBetween($min=0,$max=2)],
+                'tahun_perolehan' => $faker->numberBetween($min=2010,$max=2020),
+                'keterangan' => "INI KETERANGAN",
+                'created_by' => $faker->numberBetween($min=1,$max=5)
             ]);
         }
     }

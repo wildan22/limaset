@@ -2,6 +2,9 @@
 @section('css')
 <!-- DataTables -->
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @endsection
 
 @section('page_title','Manajemen User - List User')
@@ -46,6 +49,11 @@
                     <td>{{$user->level->keterangan}}</td>
                     <td>{{$user->unit->alias}}</td>
                     <td class="text-center">
+                        <a class="btn btn-primary text-white" data-toggle="modal"
+                            data-target="#changePassModal-{{$user->id}}">
+                            <i class="fas fa-key"></i>
+                        </a>
+                        -
                         <a class="btn btn-warning text-white" data-toggle="modal"
                             data-target="#editModal-{{$user->id}}">
                             <i class="fas fa-edit"></i>
@@ -97,6 +105,7 @@
 
                 <form method="POST" id="passFormNewUser" action="{{route('admin.manajemenuser.proses-tambah')}}">
                     @csrf
+                    <input type="number" name="id" value="{{$user->id}}">
                     <div class="form-group">
                         <label for="nama">Nama</label>
                         <input type="text" name="nama" class="form-control" placeholder="Nama "
@@ -123,8 +132,8 @@
 
                     <div class="form-group">
                         <label>Unit</label>
-                        <select name="unit" width="100%" required class="form-control select1">
-                            <option value hidden disable>---Pilih---</option>
+                        <select name="unit" width="100%" required class="form-control select2" data-placeholder="Unit/Cabang">
+                            <option value hidden disable></option>
                             @foreach($unit as $u)
                             <option value="{{$u->id}}">{{$u->keterangan}}</option>
                             @endforeach
@@ -133,8 +142,8 @@
 
                     <div class="form-group">
                         <label>Level</label>
-                        <select name="level" width="100%" required class="form-control select2">
-                            <option value hidden disable>---Pilih---</option>
+                        <select name="level" width="100%" required class="form-control select2" data-placeholder="Pilih Level">
+                            <option value hidden disable></option>
                             @foreach($level as $l)
                             <option value="{{$l->id}}">{{$l->keterangan}}</option>
                             @endforeach
@@ -143,7 +152,7 @@
 
                     <div class="form-group">
                         <label for="new_password">Password Baru (Min. 8 Digit)</label>
-                        <input type="password" name="password" id="password" class="form-control"
+                        <input type="password" name="password"class="form-control"
                             placeholder="Password" required> @if ($errors->has('new_password'))
                         <div class="text-danger">
                             {{ $errors->first('new_password')}}
@@ -154,7 +163,7 @@
                     <div class="form-group">
                         <label for="konfirmasi_password">Konfirmasi Password (Min. 8 Digit)</label><span
                             id='message'></span>
-                        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control"
+                        <input type="password" name="password_confirmation"  class="form-control"
                             placeholder="Konfirmasi Password" required> @if ($errors->has('password_confirmation'))
                         <div class="text-danger">
                             {{ $errors->first('konfirmasi_password')}}
@@ -164,7 +173,7 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                        <input id="simpanBtnNew" disabled="disabled" type="submit" class="btn btn-success"
+                        <input  disabled="disabled" type="submit" class="btn btn-success"
                             value="Simpan">
                     </div>
                 </form>
@@ -174,23 +183,21 @@
 </div>
 {{-- Akhir Tambah User --}}
 
-{{-- Modal - Edit User --}}
+
 @foreach ($users as $user)
-<div class="modal fade" id="#editModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{{-- Modal - Edit User --}}
+<div class="modal fade" id="editModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                Edit <b> {{$user->name}}</b>
-                
-                <form method="POST" action="">
+                <center> <b>Edit User</b> </center>
+                <form method="POST" action="{{route('admin.manajemenuser.proses-edit-detail')}}">
                     @csrf
-                    <input type="hidden" name="id" value="{{$user->id}}">
-
+                    <input type="number" name="id" value="{{$user->id}}" hidden>
                     <div class="form-group">
                         <label for="nama">Nama</label>
-                        <input type="text" name="nama" class="form-control" placeholder="Nama "
-                            required>
+                        <input type="text" name="nama" class="form-control" placeholder="Nama" value="{{$user->name}}" required>
 
                         @if ($errors->has('nama'))
                         <div class="text-danger">
@@ -201,9 +208,7 @@
 
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" name="email" class="form-control" placeholder="Alamat E-Mail"
-                            required>
-
+                        <input type="email" name="email" class="form-control" placeholder="Alamat E-Mail" value="{{$user->email}}" required>
                         @if ($errors->has('email'))
                         <div class="text-danger">
                             {{ $errors->first('email')}}
@@ -211,34 +216,51 @@
                         @endif
                     </div>
 
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text">Unit</label>
-                        </div>
-                        <select name="unit" width="100%" required class="form-control select2">
-                            <option value hidden disable>---Pilih---</option>
-                            {{-- @foreach($unit as $s) --}}
-                            <option value="1">Bantaian</option>
-                            {{-- @endforeach --}}
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text">Level</label>
-                        </div>
-                        <select name="level" width="100%" required class="form-control select2">
-                            <option value hidden disable>---Pilih---</option>
-                            @foreach($level as $l)
-                            <option value="{{$l->id}}">{{$l->keterangan}}</option>
+                    <div class="form-group">
+                        <label>Unit</label>
+                        <select name="unit" width="100%" required class="form-control select2" data-placeholder="Unit/Cabang">
+                            <option value hidden disable></option>
+                            @foreach($unit as $u)
+                            <option value="{{$u->id}}" {{$user->unit_id == $u->id ? "selected" : ""}}>{{$u->keterangan}}</option>
                             @endforeach
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="new_password">Password (Min. 8 Digit)</label>
-                        <input type="password" name="new_password" class="form-control" placeholder="Password Baru"
-                            required> @if ($errors->has('new_password'))
+                        <label>Level</label>
+                        <select name="level" width="100%" required class="form-control select2" data-placeholder="Pilih Level">
+                            <option value hidden disable></option>
+                            @foreach($level as $l)
+                            <option value="{{$l->id}}" {{$user->level_id == $l->id ? "selected" : ""}}>{{$l->keterangan}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <input  type="submit" class="btn btn-success"
+                            value="Simpan">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Akhir Modal Edit User --}}
+
+{{-- Modal Ubah Password User --}}
+<div class="modal fade" id="changePassModal-{{$user->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <center> <b>Ubah Password</b> </center>
+                <form method="POST" action="{{route('admin.manajemenuser.proses-edit-password')}}">
+                    @csrf
+                    <input type="number" name="id" value="{{$user->id}}" hidden>
+                    <div class="form-group">
+                        <label for="new_password">Password Baru (Min. 8 Digit)</label>
+                        <input type="password" name="password"  class="form-control"
+                            placeholder="Password" required> @if ($errors->has('new_password'))
                         <div class="text-danger">
                             {{ $errors->first('new_password')}}
                         </div>
@@ -248,25 +270,27 @@
                     <div class="form-group">
                         <label for="konfirmasi_password">Konfirmasi Password (Min. 8 Digit)</label><span
                             id='message'></span>
-                        <input type="password" name="konfirmasi_password" class="form-control"
-                            placeholder="Konfirmasi Password" required> @if ($errors->has('konfirmasi_password'))
+                        <input type="password" name="password_confirmation"  class="form-control"
+                            placeholder="Konfirmasi Password" required> @if ($errors->has('password_confirmation'))
                         <div class="text-danger">
                             {{ $errors->first('konfirmasi_password')}}
                         </div>
                         @endif
                     </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <input disabled="disabled" type="submit" class="btn btn-success" value="Simpan">
-            </div>
-            </form>
 
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <input  type="submit" class="btn btn-success"
+                            value="Simpan">
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+{{-- Akhir Modal Ubah Password User --}}
 @endforeach
-{{-- Akhir Modal Edit User --}}
+
 
 @endsection
 
@@ -274,6 +298,7 @@
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="../../plugins/select2/js/select2.js"></script>
 <script>
     $(function () {
         $('#jenisram').DataTable({
@@ -284,7 +309,14 @@
             "info": true,
             "autoWidth": false,
         });
+        //SELECT2
+        $('.select2').select2({
+            placeholder: function () {
+                $(this).data('placeholder');
+            }
+        });
     });
+    
 
 </script>
 <script type="text/javascript">

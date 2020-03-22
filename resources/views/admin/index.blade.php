@@ -114,7 +114,7 @@
             @foreach($datacabang as $dc)
             {
                 label: "{{$dc->alias}}",
-                backgroundColor: "grey",
+                backgroundColor: "{{$dc->color}}",
                 data: [
                     @foreach($tahunbarang as $tb)
                     <?php $count=0 ?>

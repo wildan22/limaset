@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\requested_user;
 use Validator;
 use Auth;
@@ -12,6 +13,7 @@ class GuestController extends Controller
 {
     public function showSelfRegist(){
         $units = unit::all();
+        Alert::success('Sukses','Password User Berhasil Diubah');
         return view('self-regist',['units'=>$units]);
     }
 
