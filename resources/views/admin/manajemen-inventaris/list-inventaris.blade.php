@@ -82,9 +82,9 @@
                 Apakah Anda Yakin akan Menghapus <b>{{$i->devicetype->nama_perangkat}}</b> ?
             </div>
             <div class="modal-footer">
-                <form method="POST" action="{{route('admin.jenisperangkat.hapus')}}">
+                <form method="POST" action="">
                     @csrf
-                    <input type="hidden" name="id" value="{{$i->id}}">
+                    <input type="hidden" name="id" value="">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Hapus</a>
                 </form>
