@@ -30,32 +30,32 @@
             <thead>
                 <tr>
                     <th width="5%">No. </th>
-                    <th width="32%">Nama Unit</th>
-                    <th width="20%">Inisial</th>                    
-                    <th width="25%">Author</th>
-                    <th width="5">Aksi</th>
+                    <th width="30%">Nama Unit</th>
+                    <th width="20%">Alias</th>
+                    <th width="15%">Created At</th>                    
+                    <th width="10%">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                {{-- @foreach ($users as $user) --}}
+                @foreach ($units as $unit)
                 <tr>
-                    <td>1</td>
-                    <td>Mega Bekri</td>
-                    <td>BEKI</td>
-                    <td>Sumanto</td>
+                    <td>{{$no++}}</td>
+                    <td>{{$unit->keterangan}}</td>
+                    <td>{{$unit->alias}}</td>
+                    <td>{{$unit->created_at}}</td>
                     <td class="text-center">
                         <a class="btn btn-warning text-white" data-toggle="modal"
-                            data-target="#editModal-">
+                            data-target="#editModal-{{$unit->id}}">
                             <i class="fas fa-edit"></i>
                         </a>
                         -
                         <a class="btn btn-danger text-white" data-toggle="modal"
-                            data-target="#deleteModal-">
+                            data-target="#deleteModal-{{$unit->id}}">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>
                 </tr>
-                {{-- @endforeach --}}
+                @endforeach
 
             </tbody>
         </table>
@@ -63,19 +63,19 @@
     <!-- /.card-body -->
 </div>
 
-{{-- @foreach ($users as $user) --}}
+@foreach ($units as $unit)
 <!-- Delete Unit Modal -->
-<div class="modal fade" id="deleteModal-" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="deleteModal-{{$unit->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                Apakah Anda Yakin akan Menghapus Unit Bunga Mayang ini?
+                Apakah Anda Yakin akan Menghapus Unit {{$unit->keterangan}} ini?
             </div>
             <div class="modal-footer">
-                <form method="POST" action="">
+                <form method="POST" action="{{route('admin.unit.hapus')}}">
                     @csrf
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id" value="{{$unit->id}}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Hapus</a>
                 </form>
@@ -83,7 +83,7 @@
         </div>
     </div>
 </div>
-{{-- @endforeach --}}
+@endforeach
 
 {{-- Modal Tambah Unit --}}
 <div class="modal fade" id="tambahDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -92,28 +92,28 @@
         <div class="modal-content">
             <div class="modal-body">
                 <center> <b>Unit Baru</b> </center>
-                <form method="POST" id="passFormNewUser" action="">
+                <form method="POST" id="passFormNewUser" action="{{route('admin.unit.tambah')}}">
                     @csrf
                     <div class="form-group">
-                        <label for="namaUnit">Nama Unit</label>
-                        <input type="text" name="namaUnit" class="form-control" placeholder="Contoh: Bunga Mayang"
+                        <label for="namaunit">Nama Unit</label>
+                        <input type="text" name="namaunit" class="form-control" placeholder="Contoh: Bunga Mayang"
                             required>
 
-                        @if ($errors->has('namaUnit'))
+                        @if ($errors->has('namaunit'))
                         <div class="text-danger">
-                            {{ $errors->first('namaUnit')}}
+                            {{ $errors->first('namaunit')}}
                         </div>
                         @endif
                     </div>
 
                     <div class="form-group">
-                        <label for="inisialUnit">Inisial Unit</label>
-                        <input type="text" name="inisialUnit" class="form-control" placeholder="Contoh: BUMA"
+                        <label for="inisialunit">Inisial Unit</label>
+                        <input type="text" name="inisialunit" class="form-control" placeholder="Contoh: BUMA"
                             required>
 
-                        @if ($errors->has('inisialUnit'))
+                        @if ($errors->has('inisialunit'))
                         <div class="text-danger">
-                            {{ $errors->first('inisialUnit')}}
+                            {{ $errors->first('inisialunit')}}
                         </div>
                         @endif
                     </div>
@@ -131,52 +131,52 @@
 {{-- Akhir Tambah Unit --}}
 
 {{-- Modal - Edit Unit --}}
-{{-- @foreach ($users as $user) --}}
-<div class="modal fade" id="#editModal-" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+@foreach ($units as $unit)
+<div class="modal fade" id="editModal-{{$unit->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                Edit <b> Bunga Mayang</b>
+                Edit <b>{{$unit->keterangan}}</b>
                 
-                <form method="POST" action="">
+                <form method="POST" action="{{route('admin.unit.ubah')}}">
                     @csrf
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id" value="{{$unit->id}}">
 
                     <div class="form-group">
-                        <label for="namaUnit">Nama Unit</label>
-                        <input type="text" name="namaUnit" class="form-control" placeholder="Contoh: Bunga Mayang"
+                        <label for="namaunit">Nama Unit</label>
+                        <input type="text" name="namaunit" class="form-control" placeholder="{{$unit->keterangan}}"
                             required>
 
-                        @if ($errors->has('namaUnit'))
+                        @if ($errors->has('namaunit'))
                         <div class="text-danger">
-                            {{ $errors->first('namaUnit')}}
+                            {{ $errors->first('namaunit')}}
                         </div>
                         @endif
                     </div>
 
                     <div class="form-group">
-                        <label for="inisialUnit">Inisial Unit</label>
-                        <input type="text" name="inisialUnit" class="form-control" placeholder="Contoh: BUMA"
+                        <label for="inisialunit">Inisial Unit</label>
+                        <input type="text" name="inisialunit" class="form-control" placeholder="{{$unit->alias}}"
                             required>
 
-                        @if ($errors->has('inisialUnit'))
+                        @if ($errors->has('inisialunit'))
                         <div class="text-danger">
-                            {{ $errors->first('inisialUnit')}}
+                            {{ $errors->first('inisialunit')}}
                         </div>
                         @endif
                     </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                <input disabled="disabled" type="submit" class="btn btn-success" value="Simpan">
+                <input type="submit" class="btn btn-success" value="Simpan">
             </div>
             </form>
 
         </div>
     </div>
 </div>
-{{-- @endforeach --}}
+@endforeach
 {{-- Akhir Modal Edit Unit --}}
 
 @endsection

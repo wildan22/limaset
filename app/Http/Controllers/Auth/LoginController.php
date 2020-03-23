@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class LoginController extends Controller
 {
@@ -78,5 +80,14 @@ class LoginController extends Controller
             return redirect()->route('login')
                 ->with('error','Alamat Email atau Password Anda Salah!');
         }
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+        Alert::success('Sukses','Berhasil Keluar');
+        return redirect('/login');
     }
 }

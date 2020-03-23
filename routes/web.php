@@ -48,6 +48,7 @@ Route::middleware('is_admin')->group(function (){
     /** TAMPILKAN HALAMAN MANEJEMEN-USER.PENDING-USERS-LIST */
     Route::get('/admin/manajemen-user/pending-user', 'AdminController@showPendingUserList')->name('admin.manajemenuser.pending');
 
+
     
     //PROSES TAMBAH KATEGORI
     Route::post('/admin/data-master/kategori/tambah', 'AdminController@simpanKategoriBaru')->name('admin.kategori.tambah');
@@ -81,12 +82,15 @@ Route::middleware('is_admin')->group(function (){
     Route::POST('admin/manajemen-user/pending-user/accept', 'AdminController@setujuiUserPending')->name('admin.manajemenuser.pending.setuju');
     /** PROSES TOLAK PENDING USER */
     Route::POST('admin/manajemen-user/pending-user/decline', 'AdminController@tolakUserPending')->name('admin.manajemenuser.pending.tolak');
-    /** PROSES EDIT USER */
-    // Route::POST('admin/manajemen-user/list-user/edit', 'AdminController@tolakUserPending')->name('admin.manajemenuser.edit');
+
     /** PROSES TAMBAH USER LEWAT ADMIN PANEL */
     Route::POST('admin/manajemen-user/list-user/tambah','AdminController@tambahUser')->name('admin.manajemenuser.proses-tambah');
     /** PROSES HAPUS USER */
     Route::POST('admin/manajemen-user/list-user/hapus','AdminController@hapusUser')->name('admin.manajemenuser.proses-hapus');
+    /** PROSES UBAH DETAIL USER */
+    Route::POST('admin/manajemen-user/list-user/edit-detail','AdminController@ubahUserDetail')->name('admin.manajemenuser.proses-edit-detail');
+    /** PROSES UBAH PASSWORD USER */
+    Route::POST('admin/manajemen-user/list-user/edit-password','AdminController@ubahPasswordUser')->name('admin.manajemenuser.proses-edit-password');
 
      /** TAMPILKAN HALAMAN LIST INVENTARIS */
      Route::get('/admin/manajemen-inventaris/list-inventaris', 'AdminController@showListInventaris')->name('admin.listinventaris');
@@ -95,12 +99,38 @@ Route::middleware('is_admin')->group(function (){
 
      /** PROSES TAMBAH DATA INVENTARIS */
      Route::POST('/admin/manajemen-inventaris/new-inventaris/tambah', 'AdminController@tambahInventaris')->name('admin.inventaris.tambah');
+    /** PROSES HAPUS DATA INVENTARIS */
+    Route::POST('/admin/manajemen-inventaris/hapus', 'AdminController@hapusInventaris')->name('admin.inventaris.hapus');
+    /** TAMPILKAN FORM EDIT INVENTARIS */
+    Route::POST('/admin/manajemen-inventaris/edit-form', 'AdminController@showFormEditInventaris')->name('admin.inventaris.formedit');
+    /** PROSES UBAH DATA INVENTARIS */
+    Route::POST('/admin/manajemen-inventaris/edit', 'AdminController@editInventaris')->name('admin.inventaris.edit');
+    
+    
+
+
+    /** PROSES HAPUS DATA UNIT/CABANG */
+    Route::POST('admin/data-master/unit/hapus', 'AdminController@hapusUnit')->name('admin.unit.hapus');
+    /** PROSES TAMBAH DATA UNIT/CABANG */
+    Route::POST('admin/data-master/unit/tambah', 'AdminController@tambahUnit')->name('admin.unit.tambah');
+    /** PROSES UBAH DATA UNIT/CABANG */
+    Route::POST('admin/data-master/unit/ubah', 'AdminController@ubahUnit')->name('admin.unit.ubah');
+    
      
 });
 
 Route::middleware('is_operator')->group(function (){
     //TAMPILKAN INDEX/DASHBOARD ADMIN
     Route::get('/operator', 'OperatorController@showDashboard')->name('operator.home');
+    //TAMPILKAN INDEX/DASHBOARD ADMIN
+    Route::get('/operator/manajemen-inventaris/new-inventaris', 'OperatorController@showNewInventaris')->name('operator.forminventaris');
+    /** TAMPILKAN HALAMAN LIST INVENTARIS */
+    Route::get('/operator/manajemen-inventaris/list-inventaris', 'OperatorController@showListInventaris')->name('operator.listinventaris');
+
+    /** PROSES TAMBAH DATA INVENTARIS */
+    Route::POST('/operator/manajemen-inventaris/new-inventaris/tambah', 'OperatorController@tambahInventaris')->name('operator.inventaris.tambah');
+
+
 });
 
 //-- HANYA UNTUK TESTING --//

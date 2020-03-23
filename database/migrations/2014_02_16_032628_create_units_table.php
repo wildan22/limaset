@@ -17,6 +17,7 @@ class CreateUnitsTable extends Migration
             $table->Increments('id');
             $table->string('alias',45);
             $table->string('keterangan',45);
+            $table->string('color',45);
             $table->timestamps();
             $table->softDeletes();
         });

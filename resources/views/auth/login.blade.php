@@ -114,6 +114,11 @@
     <!-- Bootstrap 4 -->
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
+<<<<<<< HEAD
     <script src="../../dist/js/adminlte.min.js"></script> --}}
 
+=======
+    <script src="../../dist/js/adminlte.min.js"></script>
+    @include('sweetalert::alert')
+>>>>>>> bd769b7ea1b0c2a4c32e0c7af9f294ee9e7f1ec6
 </body></html>

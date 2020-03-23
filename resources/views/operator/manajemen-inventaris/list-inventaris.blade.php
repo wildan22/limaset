@@ -7,7 +7,7 @@
 @section('page_title','Manajemen Inventaris - List Inventaris')
 
 @section('content-header')
-<h3 class="text-center">List Inventaris</h3>
+<h3 class="text-center">List Inventaris {{Auth::user()->unit->alias}}</h3>
 <ul>
     @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -25,11 +25,11 @@
                 <tr>
                     <th width="5%">No. </th>
                     <th width="15%">Jenis</th>
-                    <th width="20%">Merek</th>
+                    <th width="15%">Merek</th>
                     <th width="10%">Kondisi</th>
-                    <th width="5%">Tahun</th>
-                    <th width="25%">No. Inventaris</th>
-                    <th width="20%">Detail</th>
+                    <th width="7%">Tahun</th>
+                    <th width="35%">No. Inventaris</th>
+                    <th width="5%">Detail</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,9 +40,9 @@
                     <td>{{$i->nama_barang}}</td>
                     <td>
                         @if($i->kondisi == "BAIK")
-                        <span class="badge badge-success">BAIK</span>
+                        <span class="btn btn-success">BAIK</span>
                         @elseif($i->kondisi == "KURANG BAIK")
-                        <span class="badge badge-warning">KURANG</span>
+                        <span class="badge badge-warning">KURANG BAIK</span>
                         @else
                         <span class="badge badge-danger">RUSAK</span>
                         @endif
@@ -51,23 +51,10 @@
                     <td>{{$i->tahun_perolehan}}</td>
                     <td>{{$i->nomor_inventaris}}</td>
                     <td class="text-center">
-                    <form action="{{route('admin.inventaris.formedit')}}" method="POST">
-                        <a class="btn btn-primary text-white" data-toggle="modal" data-target="#modalDetail{{$i->id}}">
+                    <a class="btn btn-warning text-white" data-toggle="modal" data-target="#modalDetail{{$i->id}}">
                             <i class="fas fa-search"></i>
                         </a>
-                        -
-                        @csrf
-                        <input type="hidden" name="id" value="{{$i->id}}">
-                        <button type="submit" class="btn btn-warning text-white">
-                            <i class="fas fa-edit"></i>
-                        </button>
-
-                        -
-                        <a class="btn btn-danger text-white" data-toggle="modal" data-target="#deleteModal-{{$i->id}}">
-                            <i class="fas fa-trash"></i>
-                        </a>
-                        </td>
-                    </form>
+                    </td>
                 </tr>
                 @endforeach
 
@@ -77,90 +64,64 @@
     <!-- /.card-body -->
 </div>
 
+{{-- Modal - Detail Inventaris --}}
 @foreach ($inventaris as $i)
-<!-- Delete Modal -->
-<div class="modal fade" id="deleteModal-{{$i->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                Apakah Anda Yakin akan Menghapus <b>{{$i->nama_barang}}</b> ?
-            </div>
-            <div class="modal-footer">
-<<<<<<< HEAD
-                <form method="POST" action="">
-=======
-                <form method="POST" action="{{route('admin.inventaris.hapus')}}">
->>>>>>> bd769b7ea1b0c2a4c32e0c7af9f294ee9e7f1ec6
-                    @csrf
-                    <input type="hidden" name="id" value="">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-danger">Hapus</a>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-{{-- Akhir Delete Modal --}}
-
-{{-- Edit Detail Inventaris --}}
-<div class="modal fade" id="modalEdit{{$i->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-            </div>
-        </div>
-    </div>
-</div>
-{{-- Akhir Edit Detail Inventaris --}}
-
-
-{{-- Modal Detail Inventaris --}}
 <div class="modal fade" id="modalDetail{{$i->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-               <center> <b> {{$i->nomor_inventaris}}</b></center>
+               <center> <b> JR/PTPN7/INV/LP/299/X/12</b></center>
             </div>
             <div class="container">
                 <div class="row">
                     <div class="col-4"><b> Perangkat</div></b>
                     <div class="col-8">{{$i->devicetype->nama_perangkat}}</div>
-                    
-                    <div class="col-4"><b>Merk</div></b>
-                    <div class="col-8">{{$i->nama_barang}}</div>
-                  
+                  </div>
+                <div class="row">
+                  <div class="col-4"><b>Merk</div></b>
+                  <div class="col-8">{{$i->nama_barang}}</div>
+                </div>
+                <div class="row">
                     <div class="col-4"><b>Serial Number</div></b>
                     <div class="col-8">{{$i->serial_number}}</div>
-                    
+                </div>
+                <div class="row">
                     <div class="col-4"><b>Sistem Operasi</div></b>
                     <div class="col-8">{{$i->operating_system->os_name}}</div>
-                    
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>Computer Name</div></b>
                     <div class="col-8">{{$i->computer_name}}</div>
-                    
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>Storage</div></b>
-                    <div class="col-8">{{$i->storage_size}} GB</div>
-                    
+                    <div class="col-8">{{$i->storage_size}}</div>
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>RAM</div></b>
-                    <div class="col-8">{{$i->ram_size}} GB</div>
-                    
+                    <div class="col-8">{{$i->ram_size}}</div>
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>Processor</div></b>
                     <div class="col-8">{{$i->processor}}</div>
-                    
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>Wi-Fi Mac Address</div></b>
                     <div class="col-8">{{$i->wifi_mac}}</div>
-                    
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>Lan Mac Address</div></b>
                     <div class="col-8">{{$i->lan_mac}}</div>
-
+                  </div>
+                  <div class="row">
                     <div class="col-4"><b>Tahun Perolehan</div></b>
                     <div class="col-8">{{$i->tahun_perolehan}}</div>
-                </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    </div>
+                  </div>
+                  
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+            </div>
             </div>
         </div>
     </div>
@@ -184,7 +145,6 @@
             "info": true,
             "autoWidth": false,
         });
-
     });
 
 </script>

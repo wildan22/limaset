@@ -16,7 +16,7 @@ class goods extends Model
         'nama_barang',
         'serial_number',
         'processor',
-        'ram_type',
+        'ram_type_id',
         'ram_size',
         'storage_size',
         'unit_id',
@@ -40,6 +40,10 @@ class goods extends Model
     }
 
     public function unit(){
-        return $this->belongsTo('App\unit',);
+        return $this->belongsTo('App\unit');
+    }
+
+    public function ramtype(){
+        return $this->belongsTo('App\ram_type','ram_type_id');
     }
 }

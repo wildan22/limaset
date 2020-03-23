@@ -7,10 +7,11 @@
 <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 @endsection
+
 @section('page_title','Manajemen Inventaris - Form Inventaris')
 
 @section('content-header')
-<h3 class="text-center">Tambah Data Inventaris Unit {{Auth::user()->unit->alias}}</h3>
+<h3 class="text-center">Ubah Data Barang</h3>
 <ul>
     @foreach ($errors->all() as $error)
         <li>{{ $error }}</li>
@@ -18,19 +19,19 @@
 </ul>
 @endsection
 
-
 @section('content-main')
 <!-- /.card-header -->
-<form id="tambahinventaris" method="POST" action="{{route('operator.inventaris.tambah')}}">
+<form id="edit-inventaris" method="POST" action="{{route('admin.inventaris.edit')}}">
     <div class="card card-primary">
         <div class="card-header">
             <h3 class="card-title">Data Primer</h3>
         </div>
         <div class="card-body">
             @csrf
+            <input type="number" name="id" value="{{$inventaris->id}}" hidden>
             <div class="form-group">
                 <label for="merkperangkat">Merk Perangkat</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="merkperangkat" class="form-control" placeholder="Contoh: ASUS GL503" required>
+                <input type="text" name="merkperangkat" class="form-control" value="{{$inventaris->nama_barang}}" placeholder="{{$inventaris->nama_barang}}" required>
                 @if ($errors->has('merkperangkat'))
                 <div class="text-danger">
                     {{ $errors->first('merkperangkat')}}
@@ -39,16 +40,16 @@
             </div>
             <div class="form-group mb-3">
                 <label for="jenisperangkat">Jenis Perangkat</label><label class="required-field" style="color:red">*</label>
-                <select name="jenisperangkat" class="form-control select2" data-placeholder="Jenis Perangkat" required>
+                <select name="jenisperangkat" class="form-control select2" data-placeholder="{{$inventaris->devicetype->nama_perangkat}}" required>
                     <option value hidden disable></option>
                     @foreach($device as $d)
-                    <option value="{{$d->id}}">{{$d->nama_perangkat}}</option>
+                    <option value="{{$d->id}}" {{$inventaris->devicetype->nama_perangkat == $d->nama_perangkat ? "selected" : ""}}>{{$d->nama_perangkat}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label for="serialnumber">Serial Number</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="serialnumber" class="form-control" placeholder="Contoh: V8MAJ00RA" required>
+                <input type="text" name="serialnumber" class="form-control" placeholder="{{$inventaris->serial_number}}" value="{{$inventaris->serial_number}}" required>
                 @if ($errors->has('serialnumber'))
                 <div class="text-danger">
                     {{ $errors->first('serialnumber')}}
@@ -57,16 +58,25 @@
             </div>
             <div class="form-group mb-3">
                 <label for="kondisi">Kondisi Barang</label><label class="required-field" style="color:red">*</label>
-                <select name="kondisi" class="form-control select2" data-placeholder="Kondisi Barang" required>
+                <select name="kondisi" class="form-control select2" data-placeholder="{{$inventaris->kondisi}}" required>
                     <option value hidden disable></option>
-                    <option value="BAIK">Baik</option>
-                    <option value="KURANG BAIK">Kurang Baik</option>
-                    <option value="RUSAK">Rusak</option>
+                    <option value="BAIK" {{$inventaris->kondisi == "BAIK" ? "selected" : ""}}>Baik</option>
+                    <option value="KURANG BAIK" {{$inventaris->kondisi == "KURANG BAIK" ? "selected" : ""}}>Kurang Baik</option>
+                    <option value="RUSAK" {{$inventaris->kondisi == "RUSAK" ? "selected" : ""}}>Rusak</option>
+                </select>
+            </div>
+            <div class="form-group mb-3">
+                <label for="unit">Lokasi Barang</label><label class="required-field" style="color:red">*</label>
+                <select name="unit" class="form-control select2" data-placeholder="{{$inventaris->unit->alias}}" required>
+                    <option value hidden disable></option>
+                    @foreach($units as $unit)
+                    <option value="{{$unit->id}}" {{$inventaris->unit->alias == $unit->alias ? "selected" : ""}}>{{$unit->alias}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label for="keterangan">Keterangan</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="keterangan" class="form-control" placeholder="Contoh: PST" required>
+                <input type="text" name="keterangan" class="form-control" placeholder="{{$inventaris->keterangan}}" value="{{$inventaris->keterangan}}" required>
                 @if ($errors->has('keterangan'))
                 <div class="text-danger">
                     {{ $errors->first('keterangan')}}
@@ -83,8 +93,7 @@
         <div class="card-body" id="optionalform">
             <div class="form-group">
                 <label for="processor">Processor</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="processor" class="form-control" placeholder="Contoh: Intel Core i3 7700HQ"
-                    required>
+                <input type="text" name="processor" class="form-control" placeholder="{{$inventaris->processor}}" value="{{$inventaris->processor}}" required>
                 @if ($errors->has('processor'))
                 <div class="text-danger">
                     {{ $errors->first('processor')}}
@@ -95,7 +104,7 @@
             <div class="form-group">
                 <label for="storagesize">Ukuran Penyimpanan</label><label class="required-field" style="color:red">*</label>
                 <div class="input-group">
-                    <input type="number" name="storagesize" class="form-control live-convert" placeholder="Contoh: 1000" required>
+                    <input type="number" name="storagesize" class="form-control live-convert" placeholder="{{$inventaris->storage_size}} GB" value="{{$inventaris->storage_size}}" required>
                     <div class="input-group-append">
                         <span class="input-group-text">GB</span>
                     </div>
@@ -111,7 +120,7 @@
             <div class="form-group">
                 <label for="ramsize">Size RAM</label><label class="required-field" style="color:red">*</label>
                 <div class="input-group">
-                    <input type="number" name="ramsize" class="form-control" placeholder="Contoh: 1" required>
+                    <input type="number" name="ramsize" class="form-control" placeholder="{{$inventaris->ram_size}} GB" value="{{$inventaris->ram_size}}" required>
                     <div class="input-group-append">
                         <span class="input-group-text">GB</span>
                     </div>
@@ -124,26 +133,26 @@
             </div>
             <div class="form-group mb-3">
                 <label for="ramtype">Jenis RAM</label><label class="required-field" style="color:red">*</label>
-                <select name="ramtype" id="ramtype" class="form-control select2" data-placeholder="Jenis RAM" required>
+                <select name="ramtype" id="ramtype" class="form-control select2" data-placeholder="{{$inventaris->ramtype->tipe_ram}}" required>
                     <option value hidden disable></option>
                     @foreach($ramtype as $rt)
-                    <option value="{{$rt->id}}">{{$rt->tipe_ram}}</option>
+                    <option value="{{$rt->id}}" {{$inventaris->ram_type_id == $rt->id ? "selected" : ""}}>{{$rt->tipe_ram}}</option>
                     @endforeach
                 </select>
             </div>
             
             <div class="form-group mb-3">
                 <label for="sistemoperasi">Sistem Operasi</label><label class="required-field" style="color:red">*</label>
-                <select name="sistemoperasi" id="sistemoperasi" class="form-control select2" data-placeholder="Sistem operasi" required>
+                <select name="sistemoperasi" id="sistemoperasi" class="form-control select2" data-placeholder="{{$inventaris->operating_system->os_name}}" required>
                     <option value hidden disable></option>
                     @foreach($operatingsystem as $os)
-                    <option value="{{$os->id}}">{{$os->os_name}}</option>
+                    <option value="{{$os->id}}" {{$inventaris->operating_system_id == $os->id ? "selected" : ""}}>{{$os->os_name}}</option>
                     @endforeach
                 </select>
             </div>
             <div class="form-group">
                 <label for="computername">Computer Name</label>
-                <input type="text" name="computername" class="form-control" placeholder="Contoh: N7-KANDIR-WILDAN">
+                <input type="text" name="computername" class="form-control" placeholder="{{$inventaris->computer_name}}" value="{{$inventaris->computer_name}}">
                 @if ($errors->has('computername'))
                 <div class="text-danger">
                     {{ $errors->first('computername')}}
@@ -152,7 +161,7 @@
             </div>
             <div class="form-group">
                 <label for="wifimac">Wi-Fi Mac Adress</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="wifimac" class="form-control" placeholder="Contoh: B4-D5-BD-F4-AB-19" required>
+                <input type="text" name="wifimac" class="form-control" placeholder="{{$inventaris->wifi_mac}}" value="{{$inventaris->wifi_mac}}" required>
                 @if ($errors->has('wifimac'))
                 <div class="text-danger">
                     {{ $errors->first('wifimac')}}
@@ -161,7 +170,7 @@
             </div>
             <div class="form-group">
                 <label for="lanmac">LAN Mac Adress</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="lanmac" class="form-control" placeholder="Contoh: 18-60-24-87-21-13" required>
+                <input type="text" name="lanmac" class="form-control" placeholder="{{$inventaris->lan_mac}}" value="{{$inventaris->lan_mac}}" required>
                 @if ($errors->has('lanmac'))
                 <div class="text-danger">
                     {{ $errors->first('lanmac')}}
@@ -170,7 +179,7 @@
             </div>
             <div class="form-group">
                 <label for="tahunoleh">Tahun Perolehan</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="tahunoleh" class="form-control" placeholder="Contoh: 2020" required>
+                <input type="text" name="tahunoleh" class="form-control" placeholder="{{$inventaris->tahun_perolehan}}" value="{{$inventaris->tahun_perolehan}}" required>
                 @if ($errors->has('tahunoleh'))
                 <div class="text-danger">
                     {{ $errors->first('tahunoleh')}}
