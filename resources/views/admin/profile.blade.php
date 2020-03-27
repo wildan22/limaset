@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 @endsection
 
-@section('page_title','Manajemen User - List User')
+@section('page_title','Profile - Admin')
 
 @section('content-header')
 <ul>
@@ -25,13 +25,13 @@
             <div class="col">
                 <div class="row">
                 <div class="col-4"><label for="">Nama</label></div>
-                <div class="col-8">Fikri Aulia</div>
+                <div class="col-8">{{$profile->name}}</div>
                 <div class="w-100"></div>
                 <div class="col-4"><label for="">Unit</label></div>
-                <div class="col-8">Bunga Mayang</div>
+                <div class="col-8">{{$profile->unit->keterangan}}</div>
                 <div class="w-100"></div>
                 <div class="col-4"><label for="">Alamat E-Mail</label></div>
-                <div class="col-8">fikri@mail.com</div>
+                <div class="col-8">{{$profile->email}}</div>
                 </div>
             </div>
         </div>
@@ -39,6 +39,9 @@
         <div class="card-footer bg-white">
             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editDataModal">
                 <i class="fas fa-edit text-white"> Edit</i>
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#changePasswordModal">
+                <i class="fas fa-key">Change Password</i>
             </button>
         </div>
     </div>
@@ -52,12 +55,11 @@
         <div class="modal-content">
             <div class="modal-body">
                 <center> <b>Edit Biodata Diri</b> </center>
-                <form method="POST" id="passFormNewUser" action="">
+                <form method="POST" action="{{route('admin.profile.ubahdetail')}}">
                     @csrf
                     <div class="form-group">
                         <label for="nama">Nama</label>
-                        <input type="text" name="nama" class="form-control" placeholder="Fikri"
-                            required>
+                        <input type="text" name="nama" class="form-control" value="{{$profile->name}}" placeholder="Nama" required>
 
                         @if ($errors->has('nama'))
                         <div class="text-danger">
@@ -68,8 +70,7 @@
 
                     <div class="form-group">
                         <label for="email">Alamat E-Mail</label>
-                        <input type="email" name="email" class="form-control" placeholder="fikri@mail.com"
-                            required>
+                        <input type="email" name="email" class="form-control" value="{{$profile->email}}" placeholder="email" required>
 
                         @if ($errors->has('email'))
                         <div class="text-danger">
@@ -77,7 +78,27 @@
                         </div>
                         @endif
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                        <input type="submit" class="btn btn-success"
+                            value="Simpan">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Akhir Edit User --}}
 
+{{-- Modal Ubah Password User --}}
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <center> <b>Ubah Password</b> </center>
+                <form method="POST" id="passFormNewUser" action="{{route('admin.profile.ubahpassword')}}">
+                    @csrf
                     <div class="form-group">
                         <label for="new_password">Password Baru (Min. 8 Digit)</label>
                         <input type="password" name="password" id="password" class="form-control"
@@ -109,7 +130,7 @@
         </div>
     </div>
 </div>
-{{-- Akhir Edit User --}}
+{{-- Akhir Modal Ubah Password User --}}
 
 @endsection
 
@@ -141,7 +162,6 @@
 
     //UNTUK VALIDASI BUTTON DISABLE JIKA TIDAK MEMENUHI KONDISI
     document.getElementById('passFormNewUser').addEventListener("input", function () {
-        console.log("Mantap");
         var password = document.getElementById("password").value;
         var conf_password = document.getElementById("password_confirmation").value;
         if (password == conf_password && password.length > 7 && conf_password.length > 7) {

@@ -54,16 +54,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <p>
                             {{{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}} -  {{Auth::user()->unit->alias}}
                                 <small>Member since {{Auth::user()->simpleFormatCreatedAt()}}</small>
-
-                                
-                                
                             </p>
                         </li>
                         <!-- Menu Body -->
-
+                        
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <a href="/admin/profile" class="btn btn-default btn-flat">Profile</a>
+                            @if(Auth::user()->level->keterangan == "ADMIN")
+                            <a href="{{route('admin.profile')}}" class="btn btn-default btn-flat">Profile</a>
+                            @elseif(Auth::user()->level->keterangan == "OPERATOR")
+                            <a href="{{route('operator.profile')}}" class="btn btn-default btn-flat">Profile</a>
+                            @else
+                            <a href="{{route('eksekutif.profile')}}" class="btn btn-default btn-flat">Profile</a>
+                            @endif
                             <a href="/logout" class="btn btn-default btn-flat float-right">Sign out</a>
                         </li>
                     </ul>
@@ -75,7 +78,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            @if(Auth::user()->level->keterangan == "ADMIN")
+            <a href="{{route('admin.home')}}" class="brand-link">
+            @elseif(Auth::user()->level->keterangan == "OPERATOR")
+            <a href="{{route('operator.home')}}" class="brand-link">
+            @else
+            <a href="{{route('eksekutif.home')}}" class="brand-link">
+            @endif
+            
                 <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">{{Auth::user()->unit->alias}}</span>
             </a>
@@ -190,7 +200,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
                         <li class="nav-item">
-                            <a href="/operator" class="nav-link {{ Request::path() === 'admin' ? 'active': ''}}">
+                            <a href="/operator" class="nav-link {{ Request::path() === 'operator' ? 'active': ''}}">
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Dashboard
@@ -219,6 +229,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+                    </ul>
+                </nav>
+                @else
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+                        <li class="nav-item">
+                            <a href="/eksekutif" class="nav-link {{ Request::path() === 'eksekutif' ? 'active': ''}}">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Dashboard
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/eksekutif/list-inventaris" class="nav-link {{ Request::path() === 'eksekutif/list-inventaris' ? 'active': ''}}">
+                                <i class="nav-icon fas fa-dolly"></i>
+                                <p>
+                                    List Inventaris
+                                </p>
+                            </a>
                         </li>
                     </ul>
                 </nav>
