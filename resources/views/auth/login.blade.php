@@ -7,12 +7,12 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="/src/material-design-iconic-font.min.css">
     <link rel="stylesheet" type="text/css" href="/src/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/src/login-style.css">
     <link rel="stylesheet" type="text/css" href="/src/fontawesome.css">
-    <script type="application/javascript" src="/src/bootstrap.js"></script>
-    <script type="application/javascript" src="/src/fontawesome.js"></script>
+    
 
     {{-- <!-- Font Awesome -->
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
@@ -51,6 +51,7 @@
                             </div>
                             <input type="password" class="form-control" placeholder="Password" name="password">
                         </div>
+                        
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
@@ -114,11 +115,12 @@
     <!-- Bootstrap 4 -->
     <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
-<<<<<<< HEAD
     <script src="../../dist/js/adminlte.min.js"></script> --}}
-
-=======
-    <script src="../../dist/js/adminlte.min.js"></script>
     @include('sweetalert::alert')
->>>>>>> bd769b7ea1b0c2a4c32e0c7af9f294ee9e7f1ec6
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="application/javascript" src="/src/bootstrap.js"></script>
+    <script type="application/javascript" src="/src/fontawesome.js"></script>
 </body></html>

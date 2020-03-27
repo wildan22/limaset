@@ -86,13 +86,9 @@
                 Apakah Anda Yakin akan Menghapus <b>{{$i->nama_barang}}</b> ?
             </div>
             <div class="modal-footer">
-<<<<<<< HEAD
-                <form method="POST" action="">
-=======
                 <form method="POST" action="{{route('admin.inventaris.hapus')}}">
->>>>>>> bd769b7ea1b0c2a4c32e0c7af9f294ee9e7f1ec6
                     @csrf
-                    <input type="hidden" name="id" value="">
+                    <input type="hidden" name="id" value="{{$i->id}}">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-danger">Hapus</a>
                 </form>
@@ -187,26 +183,5 @@
 
     });
 
-</script>
-<script type="text/javascript">
-    //UNTUK VALIDASI MIN 8 KARAKTER
-    $('#password, #password_confirmation').on('keyup', function () {
-        if ($('#password').val() == $('#password_confirmation').val()) {
-            $('#message').html('Matching').css('color', 'green');
-        } else
-            $('#message').html('Not Matching').css('color', 'red');
-    });
-
-    //UNTUK VALIDASI BUTTON DISABLE JIKA TIDAK MEMENUHI KONDISI
-    document.getElementById('passFormNewUser').addEventListener("input", function () {
-        console.log("Mantap");
-        var password = document.getElementById("password").value;
-        var conf_password = document.getElementById("password_confirmation").value;
-        if (password == conf_password && password.length > 7 && conf_password.length > 7) {
-            simpanBtnNew.removeAttribute('disabled');
-        } else {
-            simpanBtnNew.setAttribute('disabled', 'disabled');
-        }
-    });
 </script>
 @endsection

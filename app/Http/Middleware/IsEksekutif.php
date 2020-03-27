@@ -22,15 +22,15 @@ class IsEksekutif
             }
             //Condition if level equal to operator(2)
             else if(auth()->user()->level_id == 2){
-                return redirect('operator.dashboard')->with('error',"You don't have priveleges to access");
+                return redirect()->route('operator.home')->with('error',"You don't have priveleges to access");
             }
             //Condition if level equal to admin(1)
             else if(auth()->user()->level_id == 1){
-                return redirect('admin.dashboard')->with('error',"You don't have priveleges to access");
+                return redirect()->route('admin.home')->with('error',"You don't have priveleges to access");
             }
-            return redirect('login')->with('error',"You don't have priveleges to access");
+            return redirect()->route('login')->with('error',"You don't have priveleges to access");
         }else{
-            return redirect('login')->with('error',"You don't have priveleges to access");
+            return redirect()->route('login')->with('error',"You don't have priveleges to access");
         }
     }
 }

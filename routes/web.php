@@ -106,9 +106,6 @@ Route::middleware('is_admin')->group(function (){
     /** PROSES UBAH DATA INVENTARIS */
     Route::POST('/admin/manajemen-inventaris/edit', 'AdminController@editInventaris')->name('admin.inventaris.edit');
     
-    
-
-
     /** PROSES HAPUS DATA UNIT/CABANG */
     Route::POST('admin/data-master/unit/hapus', 'AdminController@hapusUnit')->name('admin.unit.hapus');
     /** PROSES TAMBAH DATA UNIT/CABANG */
@@ -116,21 +113,55 @@ Route::middleware('is_admin')->group(function (){
     /** PROSES UBAH DATA UNIT/CABANG */
     Route::POST('admin/data-master/unit/ubah', 'AdminController@ubahUnit')->name('admin.unit.ubah');
     
+
+    /**PROSES UBAH PROFILE PASSWORD */
+    Route::POST('admin/profile/ubahpassword', 'AdminController@ubahProfilePassword')->name('admin.profile.ubahpassword');
+    /**PROSES UBAH PROFILE DETAIL */
+    Route::POST('admin/profile/ubahdetail', 'AdminController@ubahProfileDetail')->name('admin.profile.ubahdetail');
+    
      
 });
 
 Route::middleware('is_operator')->group(function (){
+    //TAMPILKAN HALAMAN PROFILE
+    Route::get('/operator/profile', 'OperatorController@showProfile')->name('operator.profile');
+
     //TAMPILKAN INDEX/DASHBOARD ADMIN
     Route::get('/operator', 'OperatorController@showDashboard')->name('operator.home');
-    //TAMPILKAN INDEX/DASHBOARD ADMIN
+    //TAMPILKAN HALAMAN TAMBAH INVENTARIS
     Route::get('/operator/manajemen-inventaris/new-inventaris', 'OperatorController@showNewInventaris')->name('operator.forminventaris');
     /** TAMPILKAN HALAMAN LIST INVENTARIS */
     Route::get('/operator/manajemen-inventaris/list-inventaris', 'OperatorController@showListInventaris')->name('operator.listinventaris');
+    /** TAMPILKAN HALAMAN UBAH DATA INVENTARIS */
+    Route::POST('/operator/manajemen-inventaris/edit', 'OperatorController@showFormEditInventaris')->name('operator.inventaris.formedit');
 
     /** PROSES TAMBAH DATA INVENTARIS */
     Route::POST('/operator/manajemen-inventaris/new-inventaris/tambah', 'OperatorController@tambahInventaris')->name('operator.inventaris.tambah');
+    /** PROSES UBAH DATA INVENTARIS */
+    Route::POST('/operator/manajemen-inventaris/edit/proses', 'OperatorController@editInventaris')->name('operator.inventaris.prosesubah');
+    /** PROSES HAPUS DATA INVENTARIS */
+    Route::POST('/operator/manajemen-inventaris/hapus', 'OperatorController@hapusInventaris')->name('operator.inventaris.hapus');
+    
+    
+    /**PROSES UBAH PROFILE PASSWORD */
+    Route::POST('operator/profile/ubahpassword', 'OperatorController@ubahProfilePassword')->name('operator.profile.ubahpassword');
+    /**PROSES UBAH PROFILE DETAIL */
+    Route::POST('operator/profile/ubahdetail', 'OperatorController@ubahProfileDetail')->name('operator.profile.ubahdetail');
+
+});
 
 
+Route::middleware('is_eksekutif')->group(function (){
+    //TAMPILKAN INDEX/DASHBOARD EKSEKUTIF
+    Route::get('/eksekutif', 'EksekutifController@showDashboard')->name('eksekutif.home');
+    //TAMPILKAN HALAMAN LIST INVENTARIS EKSEKUTIF
+    Route::get('/eksekutif/list-inventaris', 'EksekutifController@showInventarisList')->name('eksekutif.inventarislist');
+    //TAMPILKAN HALAMAN PROFILE EKSEKUTIF
+    Route::get('/eksekutif/profile', 'EksekutifController@showProfile')->name('eksekutif.profile');
+    /**PROSES UBAH PROFILE PASSWORD EKSEKUTIF */
+    Route::POST('eksekutif/profile/ubahpassword', 'EksekutifController@ubahProfilePassword')->name('eksekutif.profile.ubahpassword');
+    /**PROSES UBAH PROFILE DETAIL EKSEKUTIF */
+    Route::POST('eksekutif/profile/ubahdetail', 'EksekutifController@ubahProfileDetail')->name('eksekutif.profile.ubahdetail');
 });
 
 //-- HANYA UNTUK TESTING --//

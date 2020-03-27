@@ -16,6 +16,7 @@ use App\storage_size;
 use App\goods;
 use \Colors\RandomColor;
 
+use Illuminate\Validation\Rule;
 use DB;
 use Auth;
 
@@ -40,7 +41,7 @@ class AdminController extends Controller
 
     /** Tampilkan Halaman Profile Admin */
     public function showProfile(){
-        $profile = category::all();
+        $profile = User::find(Auth::user()->id);
         return view('admin.profile',['profile'=>$profile]);
     }
 
@@ -351,7 +352,7 @@ class AdminController extends Controller
         $this->validate($request,[
             'id'=>'required|min:1',
             'nama'=>'required|min:3',
-            'email'=>'required|min:3|email|unique:users,email',
+            'email'=>['required','min:3','email',Rule::unique('users')->ignore($request->id)],
             'level'=>'required|min:1',
             'unit'=>'required|min:1'
         ]);
@@ -535,7 +536,6 @@ class AdminController extends Controller
                                 'keterangan' => $request->keterangan,
                                 'created_by' => Auth::user()->id
                             ]);
-            
         }
         else{
             $this->validate($request,[
@@ -596,6 +596,7 @@ class AdminController extends Controller
         return redirect()->route('admin.unit');
     }
 
+    //** PROSES UBAH DETAIL UNIT */
     public function ubahUnit(Request $request){
         $this->validate($request,[
             'namaunit'=>'required|min:1',
@@ -608,5 +609,32 @@ class AdminController extends Controller
 
         Alert::success('Sukses','Data Berhasil Diperbaharui');
         return redirect()->route('admin.unit');
+    }
+
+    /** PROSES UBAH PASSWORD MELALUI PROFIL */
+    public function ubahProfilePassword(Request $request){
+        $this->validate($request,[
+            'password' => 'required|min:8|confirmed'
+        ]);
+        $user = User::find(Auth::user()->id);
+        $user->password = bcrypt($request->password);
+        $user->save();
+        $request->session()->flush();
+        Alert::success('Sukses','Password Berhasil Diubah, silahkan login kembali');
+        return redirect()->route('login');
+    }
+
+    /** PROSES UBAH DETAIL USER MELALUI PROFIL */
+    public function ubahProfileDetail(Request $request){
+        $this->validate($request,[
+            'nama' => 'required|min:3',
+            'email'=>['required','min:3','email',Rule::unique('users')->ignore(Auth::user()->id)],
+        ]);
+        $user = User::find(Auth::user()->id);
+        $user->name = $request->nama;
+        $user->email = $request->email;
+        $user->save();
+        Alert::success('Sukses','Profile Berhasil diubah');
+        return redirect()->route('admin.profile');
     }
 }

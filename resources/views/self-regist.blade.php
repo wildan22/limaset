@@ -12,8 +12,6 @@
     <link rel="stylesheet" type="text/css" href="/src/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="/src/login-style.css">
     <link rel="stylesheet" type="text/css" href="/src/fontawesome.css">
-    <script type="application/javascript" src="/src/bootstrap.js"></script>
-    <script type="application/javascript" src="/src/fontawesome.js"></script>
     <!-- Select2 -->
     <link rel="stylesheet" href="../../plugins/select2/css/select2.min.css">
     <link rel="stylesheet" href="../../plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -89,6 +87,24 @@
     </div>
 
 
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/select2/js/select2.js"></script>
+<script type="application/javascript" src="/src/bootstrap.js"></script>
+<script type="application/javascript" src="/src/fontawesome.js"></script>
+@include('sweetalert::alert')
+
+<script>
+    $(function () {
+        $('.select2').select2({
+            placeholder: function () {
+                $(this).data('placeholder');
+            }
+        });
+    });
+</script>
 <script type="text/javascript">
     //UNTUK VALIDASI MIN 8 KARAKTER
     $('#password, #password_confirmation').on('keyup', function () {
@@ -108,22 +124,6 @@
         } else {
             simpanBtnNew.setAttribute('disabled', 'disabled');
         }
-    });
-</script>
-<!-- jQuery -->
-<script src="../../plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="../../dist/js/adminlte.min.js"></script>
-<script src="../../plugins/select2/js/select2.js"></script>
-<script>
-    $(function () {
-        $('.select2').select2({
-            placeholder: function () {
-                $(this).data('placeholder');
-            }
-        });
     });
 </script>
 </body>
