@@ -112,6 +112,10 @@ class UserSeeder extends Seeder
                 'keterangan' => "INI KETERANGAN",
                 'created_by' => $faker->numberBetween($min=1,$max=5)
             ]);
+            $device_code = device_type::find($tambahinventaris->device_type_id);
+            $generate = goods::find($tambahinventaris->id);
+            $generate->nomor_inventaris="RJ/PTPN7/INV/".$device_code->kode_inventaris."/".$tambahinventaris->id."/".$tambahinventaris->tahun_perolehan;
+            $generate->save();
         }
     }
 }

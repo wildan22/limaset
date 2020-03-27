@@ -30,7 +30,7 @@ class GuestController extends Controller
             'password' => bcrypt($request->password),
             'unit_id' => $request->unit
         ]);
-        
+        Alert::success('Sukses','Pendaftaran anda berhasil dikirim, silahkan tunggu konfirmasi akun dari admin');
         return redirect('/login');
     }
 

@@ -55,7 +55,7 @@
                             <div class="input-group-text">
                                 <span class="fas fa-lock" id="message"></span>
                             </div>
-                            <input type="password" class="form-control @error('email') is-invalid @enderror" placeholder="Password" name="password" required>
+                            <input type="password" id="password" class="form-control @error('email') is-invalid @enderror" placeholder="Password" name="password" required>
                             @error('password')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -66,7 +66,7 @@
                             <div class="input-group-text">
                                 <span class="fas fa-lock" id="message"></span>
                             </div>
-                            <input type="password" class="form-control" placeholder="Konfirmasi Password" name="password_confirmation" required>
+                            <input type="password" id="password_confirmation" class="form-control" placeholder="Konfirmasi Password" name="password_confirmation" required>
                         </div>
                         <div class="form-group mb-3">
                             <select class="form-control select2" data-placeholder="Pilih Unit" style="width: 100%;" name="unit" required>
