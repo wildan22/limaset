@@ -394,6 +394,7 @@ class AdminController extends Controller
                 'kondisi' => 'required|min:3',
                 'keterangan' => 'required|min:3',
                 'unit' => 'required|min:1',
+                'tahunoleh' => 'required|min:4',
                 
                 'processor' => 'required|min:3',
                 'storagesize' => ['required','regex:/^(0*[1-9][0-9]*(\.[0-9]+)?|0+\.[0-9]*[1-9][0-9]*)$/'],
@@ -403,7 +404,7 @@ class AdminController extends Controller
                 'computername' => 'required|min:1',
                 'wifimac' => ['required','regex:/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/'],
                 'lanmac' => ['required','regex:/^([0-9A-F]{2}[:-]){5}([0-9A-F]{2})$/'],
-                'tahunoleh' => 'required|min:4'
+                
             ],[
                 'wifimac.regex' => 'Format Mac Address Tidak Sesuai',
                 'lanmac.regex' => 'Format Mac Address Tidak Sesuai'
@@ -442,6 +443,7 @@ class AdminController extends Controller
                 'kondisi' => 'required|min:3',
                 'keterangan' => 'required|min:3',
                 'unit' => 'required|min:1',
+                'tahunoleh' => 'required|min:4',
             ]);
             $tambahinventaris = goods::create([
                 'device_type_id' => $request->jenisperangkat,

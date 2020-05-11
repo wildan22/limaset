@@ -82,6 +82,15 @@
                 </div>
                 @endif
             </div>
+            <div class="form-group">
+                <label for="tahunoleh">Tahun Perolehan</label><label class="required-field" style="color:red">*</label>
+                <input type="text" name="tahunoleh" class="form-control" placeholder="Contoh: 2020" required>
+                @if ($errors->has('tahunoleh'))
+                <div class="text-danger">
+                    {{ $errors->first('tahunoleh')}}
+                </div>
+                @endif
+            </div>
         </div>
         <!-- /.card-body -->
     </div>
@@ -177,15 +186,7 @@
                 </div>
                 @endif
             </div>
-            <div class="form-group">
-                <label for="tahunoleh">Tahun Perolehan</label><label class="required-field" style="color:red">*</label>
-                <input type="text" name="tahunoleh" class="form-control" placeholder="Contoh: 2020" required>
-                @if ($errors->has('tahunoleh'))
-                <div class="text-danger">
-                    {{ $errors->first('tahunoleh')}}
-                </div>
-                @endif
-            </div>
+            
         </div>
     </div>
     <div class="form-group mt-3">

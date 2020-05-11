@@ -12,7 +12,7 @@ class category extends Model
     use SoftCascadeTrait;
     protected $fillable = ['category_name'];
     protected $softCascade = ['device_type'];
-
+    
     public function device_type(){
         return $this->hasMany('App\device_type');
     }
